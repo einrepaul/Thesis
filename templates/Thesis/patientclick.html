@@ -1,0 +1,22 @@
+{% extends 'Thesis/base.html' %}
+{% load static %}
+{% block title %}Patient{% endblock %}
+{% block body_block %}
+
+<br>
+<br>
+
+<div class="jumbotron" style="margin-bottom:0px; background-image: url(/static/images/hospital.jpg); height:100vh;">
+    <div class='container'>
+        <h1 class="display-4" style="text-align:center;">Hello, Patient!</h1>
+        <p class="lead" style="text-align:center;">Welcome to San Rafael RHU eHealth App!</p>
+        <hr class="my-4">
+        <p style="text-align:center; font-size: 20px;">You can access various features after Login/SignUp.</p>
+        <p class="lead" style="text-align:center">
+            <a class="btn btn-primary btn-lg" href="/patientsignup" role="button">SignUp</a>
+            <a class="btn btn-primary btn-lg" href="/patientlogin" role="button">Login</a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}

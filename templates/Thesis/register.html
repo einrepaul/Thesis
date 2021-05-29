@@ -42,9 +42,13 @@
 											</div>		
 										</div>		
 												<div class="form-group">
-		      										<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></div>
-		      											{{ form.email }}
+		      										<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
+		      											{{ form.username }}
 		      									</div>
+												<div class="form-group">
+													<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></div>
+														{{ form.email }}
+												</div>
 	            								<div class="form-group">
 	            									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
 	              										{{ form.password1 }}
@@ -66,30 +70,34 @@
 									<form name="admin_form" id="admin_form" method="POST" action="" class="signup-form">
 									{% csrf_token %}
 									<div class="row">
-										<div class="col-md-5">
+										<div class="col-md-6">
 		      								<div class="form-group">
 		      									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
-													{{ form.first_name }}
+													{{ form2.first_name }}
 											</div>	
 		      							</div>
-										<div class="col-md-5">
+										<div class="col-md-6">
 											<div class="form-group">
 												<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user-circle-o"></span></div>
-													{{ form.last_name }}
+													{{ form2.last_name }}
 											</div>
 										</div>
 									</div>	
 											<div class="form-group">
+												<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
+													{{ form2.username }}
+											</div>
+											<div class="form-group">
 		      									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></div>
-													{{ form.email }}
+													{{ form2.email }}
 		      								</div>
 	            							<div class="form-group">
 	            								<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
-													{{ form.password1 }}
+													{{ form2.password1 }}
 	            							</div>
 											<div class="form-group">
 												<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
-													{{ form.password2 }}
+													{{ form2.password2 }}
 												</div>
 	            							<div class="form-group">
 	            								<button id="admin_submit" type="submit" class="btn form-control btn-primary rounded submit px-3" name="b2">Get Started</button>
@@ -100,7 +108,7 @@
 				    	</div>
 	          				<div class="w-100 text-center mt-4 text">
 	          				<p class="mb-0">Already have an account?</p>
-		          			<a href="index">Sign In</a>
+		          			<a href="/">Sign In</a>
 	          				</div>
 						</div>
 	        		</div>
@@ -112,14 +120,16 @@
 			var form_fields = document.getElementsByTagName('input')
 			form_fields[1].placeholder = "First Name";
 			form_fields[2].placeholder = "Last Name";
-			form_fields[3].placeholder = "Email Address";
-			form_fields[4].placeholder = "Password";
-			form_fields[5].placeholder = "Confirm Password";
-			form_fields[7].placeholder = "First Name";
-			form_fields[8].placeholder = "Last Name";
-			form_fields[9].placeholder = "Email Address";
-			form_fields[10].placeholder = "Password";
-			form_fields[11].placeholder = "Confirm Password";
+			form_fields[3].placeholder = "Username";
+			form_fields[4].placeholder = "Email Address";
+			form_fields[5].placeholder = "Password";
+			form_fields[6].placeholder = "Confirm Password";
+			form_fields[8].placeholder = "First Name";
+			form_fields[9].placeholder = "Last Name";
+			form_fields[10].placeholder = "Username";
+			form_fields[11].placeholder = "Email Address";
+			form_fields[12].placeholder = "Password";
+			form_fields[13].placeholder = "Confirm Password";
 
 			for (var field in form_fields) {
 				form_fields[field].className += 'form-control'
@@ -127,7 +137,7 @@
 
 			var form = document.getElementById("patient_form")
 
-			document.getElementById("patient_submit").addEventListener("click", function () {
+			document.getElementById("patient_submit").addEventListener("click", function() {
 				form.submit();
 
 			});
