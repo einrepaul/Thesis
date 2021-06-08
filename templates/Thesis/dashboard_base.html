@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{% endblock %} - Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'images/San Rafael.png' %}">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -30,7 +31,6 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 {% block body_block %}
 {% endblock %}
-
 <!-- jQuery -->
 <script src="{% static 'plugins/jquery.min.js' %}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -65,5 +65,12 @@
 <script src="{% static 'js/demo.js' %}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{% static 'js/dashboard.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#ModalPatientForm').modal('show');
+      $('#modal-title').text('Please finish setting up your profile.');
+  })
+</script>
 </body>
 </html>

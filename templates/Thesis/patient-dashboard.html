@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 {% extends 'Thesis/dashboard_base.html' %}
 {% load static %}
-{% block title %}Admin{% endblock %}
+{% block title %}Patient{% endblock %}
 {% block body_block %}
 <div class="wrapper">
-
-    
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
@@ -14,7 +12,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="admin-dashboard.html" class="nav-link">Home</a>
+          <a href="patient-dashboard.html" class="nav-link">Home</a>
         </li>
       </ul>
   
@@ -117,5 +115,35 @@
       </div>
       <!-- /.sidebar -->
     </aside>
-  
+   <!-- Modal HTML Markup -->
+   <div id="ModalPatientForm" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Please finish setting up your profile.</h1>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="" class="login-form">
+                {% csrf_token %}
+                        <div class="form-group">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
+                                {{ form.username }}
+                        </div>
+                        <div class="form-group">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
+                                {{ form.password }}
+                        </div>
+                        <div class="form-group d-md-flex">
+                            <div class="w-100 text-md-right">
+                                <a href="#">Forgot Password</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn form-control btn-primary rounded submit px-3">Get Started</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div> 
 {% endblock %}
