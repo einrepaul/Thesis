@@ -1,10 +1,10 @@
-{% extends 'Thesis/base.html' %}
+{% extends 'Thesis/index_base.html' %}
 {% load static %}
 {% block title %}Index{% endblock %}
+{% block brand_link %}{% endblock %}
+{% block nav_button %}{% endblock %}
 {% block body_block %}
-	<body style="background-image: url(/static/images/hospital.jpg)">
 		{% include "Thesis/admin_doctor_patient_card.html" %}
-		
 {% endblock %}
 
 

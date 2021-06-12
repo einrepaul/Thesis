@@ -53,10 +53,9 @@
 </head>
 
 <body>
-  <br><br>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-6 text-center mb-0">
+      <div class="col-md-12 text-center mb-0">
         <img src="{% static 'images/RHU.png' %}" width="300" height="200" alt=""/>
       </div>
     </div>
@@ -64,26 +63,35 @@
   <div class="grid-container">
     <div class="grid-item">
       <div class="card">
-        <img src="{% static 'images/admin.png' %}" alt="John" style="width:100%">
+        <img src="{% static 'images/admin.png' %}" style="width:100%">
         <p class="title">ADMIN</p>
-        <p><button><a href="adminclick">View</a></button></p>
+        <div class="btn-group" style="display:inline-block; width:100%">
+          <button><a href="/adminlogin">Login</a></button>
+          <button><a href="/adminsignup">Signup</a></button>
+        </div>
       </div>
 
     </div>
 
     <div class="grid-item">
       <div class="card">
-        <img src="{% static 'images/doctor.png' %}" alt="John" style="width:100%">
+        <img src="{% static 'images/doctor.png' %}" style="width:100%">
         <p class="title">DOCTOR</p>
-        <p><button><a href="/doctorclick">View</a></button></p>
+        <div class="btn-group" style="display:inline-block; width:100%"">
+          <button><a href="/doctorlogin">Login</a></button>
+          <button><a href="/doctorsignup">Signup</a></button>
+        </div>
       </div>
     </div>
 
     <div class="grid-item">
       <div class="card">
-        <img src="{% static 'images/patient.jpg' %}" alt="John" style="width:100%">
+        <img src="{% static 'images/patient.jpg' %}" style="width:100%">
         <p class="title">PATIENT</p>
-        <p><button><a href="/patientclick">View</a></button></p>
+          <div class="btn-group" style="display:inline-block; width:100%"">
+            <button><a href="/patientlogin">Login</a></button>
+            <button><a href="/patientsignup">Signup</a></button>
+          </div>
       </div>
     </div>
 

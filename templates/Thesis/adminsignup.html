@@ -1,62 +1,9 @@
-<!DOCTYPE html>
 {% extends 'Thesis/base.html' %}
-{% load static %}
-{% block title %}Admin Signup{% endblock %}
+{% load app_filters %}
+{% block title %}Registration{% endblock %}
+{% block brand_link %}/adminsignup{% endblock %}
+{% block nav_button %}<a href="/adminlogin">Login</a>{% endblock %}
+{% block body_header %}Registration{% endblock %}
 {% block body_block %}
-  	<body style="background-image: url(/static/images/hospital.jpg)">
-		<div class="container-fluid">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-0">
-					<img src="{% static 'images/RHU.png' %}" width="300" height="200" alt=""/>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-4">
-					<div class="login-wrap py-5">
-		      	      	<div class="container-fluid"></div>
-					       	<h3 class="text-center mb-0">&nbsp;</h3>
-		      	      		<h3 class="text-center mb-0">Welcome</h3>
-							<p class="text-center">Sign up by entering the information below</p>
-								<form name="adminsignup_form" id="adminsignup_form" method="POST" action="">
-								{% csrf_token %}
-									<div class="row">
-										<div class="col-md-6">
-		      								<div class="form-group">
-		      									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
-													{{ admin_form.first_name }}
-											</div>	
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user-circle-o"></span></div>
-													{{ admin_form.last_name }}
-											</div>
-										</div>		
-									</div>		
-											<div class="form-group">
-		      									<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
-		      										{{ admin_form.username }}
-		      								</div>
-											<div class="form-group">
-												<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></div>
-													{{ admin_form.email }}
-											</div>
-	            							<div class="form-group">
-	            								<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
-	              									{{ admin_form.password }}
-	            							</div>
-	            							<div class="form-group">
-	            								<button id="patient_submit" type="submit" class="btn form-control btn-primary rounded submit px-3" name="b1">Get Started</button>
-	            							</div>
-	          					</form>
-								<div class="w-100 text-center mt-4 text">
-								<p class="mb-0">Already have an account?</p>
-									<a href="/adminlogin">Sign In</a>
-								</div>
-				        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+	{% include 'Thesis/singleform.html' %}
 {% endblock %}

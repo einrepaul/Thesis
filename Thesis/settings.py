@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'RHU',
     'widget_tweaks',
     'bootstrap_modal_forms',
 ]
