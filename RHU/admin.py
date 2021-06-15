@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from RHU.models import Account, Profile, Action
+from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics
 
 class AccountAdmin(admin.ModelAdmin):
     fields = ['role', 'profile', 'user']
@@ -33,3 +33,39 @@ class ActionAdmin(admin.ModelAdmin):
     ordering = ('-timePerformed',)
 
 admin.site.register(Action, ActionAdmin)
+
+class AppointmentAdmin(admin.ModelAdmin):
+    fields = [
+        'doctor',
+        'patient',
+        'description',
+        'active',
+        'startTime',
+        'endTime',
+        'date'
+    ]
+    list_display = ('description','date', 'doctor', 'patient', 'startTime', 'endTime', 'active')
+
+
+admin.site.register(Appointment, AppointmentAdmin)
+
+class MedicalTestAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'date',
+        'description',
+        'doctor',
+        'patient',
+        'private',
+        'completed'
+    ]
+    list_display = ('name', 'doctor', 'patient', 'date')
+
+
+admin.site.register(MedicalTest, MedicalTestAdmin)
+
+class StatsAdmin(admin.ModelAdmin):
+    readonly_fields = ('stats', 'freq')
+    list_filter = ('stats','freq')
+
+admin.site.register(Statistics, StatsAdmin)

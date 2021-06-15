@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 def index(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request, 'Thesis/index.html')
+    return render(request, 'index.html')
 
 console_logger = logging.getLogger(__name__)
 
@@ -30,12 +30,26 @@ def authentication_check(request, required_roles=None, required_GET=None):
         request.session['alert_danger'] = "Your account was not properly created, please try a different account."
         return HttpResponseRedirect('/logout')
     if required_roles and request.user.account.role not in required_roles:
-        request.session['alert_danger'] = "You don't have permission to view that page."
-        return HttpResponseRedirect('/error/denied')
+        if request.user.account.role == Account.ACCOUNT_PATIENT:
+            request.session['alert_danger'] = "You don't have permission to view that page."
+            return HttpResponseRedirect('/error/patientdenied')
+        elif request.user.account.role == Account.ACCOUNT_DOCTOR:
+            request.session['alert_danger'] = "You don't have permission to view that page."
+            return HttpResponseRedirect('/error/doctordenied')
+        elif request.user.account.role == Account.ACCOUNT_ADMIN:
+            request.session['alert_danger'] = "You don't have permission to view that page."
+            return HttpResponseRedirect('/error/admindenied')
     if required_GET:
         for key in required_GET:
-            request.session['alert_danger'] = "Looks like you tried to use a malformed URL."
-            return HttpResponseRedirect('/error/denied')
+            if request.user.account.role == Account.ACCOUNT_PATIENT:
+                request.session['alert_danger'] = "Looks like you tried to use a malformed URL."
+                return HttpResponseRedirect('/error/patientdenied')
+            elif request.user.account.role == Account.ACCOUNT_DOCTOR:
+                request.session['alert_danger'] = "Looks like you tried to use a malformed URL."
+                return HttpResponseRedirect('/error/doctordenied')
+            if request.user.account.role == Account.ACCOUNT_ADMIN:
+                request.session['alert_danger'] = "Looks like you tried to use a malformed URL."
+                return HttpResponseRedirect('/error/admindenied')
 
 def parse_session(request, template_data=None):
     if template_data is None:
@@ -65,9 +79,9 @@ def logout_view(request):
         request.session['alert_danger'] = saved_data['alert_danger']
     return HttpResponseRedirect('/')
 
-def login_view(request):
+def patient_login_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')
+        return HttpResponseRedirect('/patient_profile')
     template_data = parse_session(request, {'form_button': "Login"})
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -79,15 +93,15 @@ def login_view(request):
             login(request, user)
             logger.log(Action.ACTION_ACCOUNT, "Account login", request.user)
             request.session['alert_success'] = 'Successfully logged in.'
-            return HttpResponseRedirect('/profile')
+            return HttpResponseRedirect('/patient_profile')
     else:
         form = LoginForm()
     template_data['form'] = form
-    return render(request, 'Thesis/adminlogin.html', template_data)
+    return render(request, 'Thesis/patientlogin.html', template_data)
 
-def register_view(request):
+def patient_register_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/profile')
+        return HttpResponseRedirect('/patient_profile')
     template_data = parse_session(request, {'form_button': 'Register'})
     if request.method == 'POST':
         form = AccountRegisterForm(request.POST)
@@ -104,7 +118,117 @@ def register_view(request):
             profile.save()
             account = Account(role=Account.ACCOUNT_PATIENT, profile=profile, user=user)
             account.save()
-            medicalinfo = MedicalInfo(patient=account.user, alzheimer=False, asthma=False,
+            user = authenticate(
+                username = form.cleaned_data['email'].lower(),\
+                password=form.cleaned_data['password_first']
+            )
+            logger.log(Action.ACTION_ACCOUNT, "Account registered", user)
+            logger.log(Action.ACTION_ACCOUNT, "Account login", user)
+            login(request,user)
+            request.session['alert_success'] = "Successfully registered."
+            my_patient_group = Group.objects.get_or_create(name='PATIENT')
+            my_patient_group[0].user_set.add(user)
+            return HttpResponseRedirect('/patient_profile')
+    else:
+        form = AccountRegisterForm()
+    template_data['form'] = form
+    return render(request, 'Thesis/patientsignup.html', template_data)
+
+def admin_login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/admin_profile')
+    template_data = parse_session(request, {'form_button': "Login"})
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['email'].lower(),
+                password=form.cleaned_data['password']
+            )
+            login(request, user)
+            logger.log(Action.ACTION_ACCOUNT, "Account login", request.user)
+            request.session['alert_success'] = 'Successfully logged in.'
+            return HttpResponseRedirect('/admin_profile')
+    else:
+        form = LoginForm()
+    template_data['form'] = form
+    return render(request, 'Thesis/adminlogin.html', template_data)
+
+def admin_register_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/admin_profile')
+    template_data = parse_session(request, {'form_button': 'Register'})
+    if request.method == 'POST':
+        form = AccountRegisterForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                form.cleaned_data['email'].lower(),
+                form.cleaned_data['email'],
+                form.cleaned_data['password_first']
+            )
+            profile = Profile(
+                firstname=form.cleaned_data['firstname'],
+                lastname=form.cleaned_data['lastname'],
+            )
+            profile.save()
+            account = Account(role=Account.ACCOUNT_ADMIN, profile=profile, user=user)
+            account.save()
+            user = authenticate(
+                username = form.cleaned_data['email'].lower(),\
+                password=form.cleaned_data['password_first']
+            )
+            logger.log(Action.ACTION_ACCOUNT, "Account registered", user)
+            logger.log(Action.ACTION_ACCOUNT, "Account login", user)
+            login(request,user)
+            request.session['alert_success'] = "Successfully registered."
+            my_admin_group = Group.objects.get_or_create(name='ADMIN')
+            my_admin_group[0].user_set.add(user)
+            return HttpResponseRedirect('/admin_profile')
+    else:
+        form = AccountRegisterForm()
+    template_data['form'] = form
+    return render(request, 'Thesis/adminsignup.html', template_data)
+
+def doctor_login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/doctor_profile')
+    template_data = parse_session(request, {'form_button': "Login"})
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['email'].lower(),
+                password=form.cleaned_data['password']
+            )
+            login(request, user)
+            logger.log(Action.ACTION_ACCOUNT, "Account login", request.user)
+            request.session['alert_success'] = 'Successfully logged in.'
+            return HttpResponseRedirect('/doctor_profile')
+    else:
+        form = LoginForm()
+    template_data['form'] = form
+    return render(request, 'Thesis/doctorlogin.html', template_data)
+
+def doctor_register_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/doctor_profile')
+    template_data = parse_session(request, {'form_button': 'Register'})
+    if request.method == 'POST':
+        form = AccountRegisterForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                form.cleaned_data['email'].lower(),
+                form.cleaned_data['email'],
+                form.cleaned_data['password_first']
+            )
+            profile = Profile(
+                firstname=form.cleaned_data['firstname'],
+                lastname=form.cleaned_data['lastname'],
+            )
+            profile.save()
+            account = Account(role=Account.ACCOUNT_DOCTOR, profile=profile, user=user)
+            account.save()
+            medicalinfo = MedicalInfo(doctor=account.user, alzheimer=False, asthma=False,
                                       diabetes=False, stroke=False)
             medicalinfo.save()
             user = authenticate(
@@ -115,62 +239,32 @@ def register_view(request):
             logger.log(Action.ACTION_ACCOUNT, "Account login", user)
             login(request,user)
             request.session['alert_success'] = "Successfully registered."
-            return HttpResponseRedirect('/profile')
+            my_doctor_group = Group.objects.get_or_create(name='DOCTOR')
+            my_doctor_group[0].user_set.add(user)
+            return HttpResponseRedirect('/doctor_profile')
     else:
         form = AccountRegisterForm()
     template_data['form'] = form
-    return render(request, 'Thesis/adminsignup.html', template_data)
+    return render(request, 'Thesis/doctorsignup.html', template_data)
 
-def error_denied_view(request):
+def patient_error_denied_view(request):
     authentication_result = authentication_check(request)
     if authentication_result is not None: return authentication_result
     template_data = parse_session(request)
-    return render(request, 'Thesis/error/denied.html', template_data)
+    return render(request, 'Thesis/error/patientdenied.html', template_data)
 
+def admin_error_denied_view(request):
+    authentication_result = authentication_check(request)
+    if authentication_result is not None: return authentication_result
+    template_data = parse_session(request)
+    return render(request, 'Thesis/error/admindenied.html', template_data)
 
-def admin_signup_view(request):
-    admin_form=AdminSignupForm()
-    if request.method=='POST':
-        admin_form=AdminSignupForm(request.POST)
-        if admin_form.is_valid():
-            user=admin_form.save()
-            user.set_password(user.password)
-            user.save()
-            my_admin_group = Group.objects.get_or_create(name='ADMIN')
-            my_admin_group[0].user_set.add(user)
-            return HttpResponseRedirect('/adminlogin')
-    return render(request,'Thesis/adminsignup.html',{'admin_form':admin_form})
-
-def doctor_signup_view(request):
-    user_form=forms.DoctorSignupForm()
-    doctor_form=forms.DoctorForm()
-    if request.method=='POST':
-        user_form=forms.DoctorSignupForm(request.POST)
-        doctor_form=forms.DoctorForm(request.POST)
-        if user_form.is_valid() and doctor_form.is_valid():
-            user=user_form.save()
-            user.set_password(user.password)
-            user.save()
-            doctor=doctor_form.save(commit=False)
-            doctor.user=user
-            doctor=doctor.save()
-            my_doctor_group = Group.objects.get_or_create(name='DOCTOR')
-            my_doctor_group[0].user_set.add(user)
-        return HttpResponseRedirect('/doctorlogin')
-    return render(request,'Thesis/doctorsignup.html',{'user_form':user_form, 'doctor_form':doctor_form})
-
-def patient_signup_view(request):
-    patient_form=forms.PatientSignupForm()
-    if request.method=='POST':
-        patient_form=forms.PatientSignupForm(request.POST)
-        if patient_form.is_valid():
-            user=patient_form.save()
-            user.set_password(user.password)
-            user.save()
-            my_patient_group = Group.objects.get_or_create(name='PATIENT')
-            my_patient_group[0].user_set.add(user)
-            return HttpResponseRedirect('/patientlogin')
-    return render(request,'Thesis/patientsignup.html',{'patient_form': patient_form})
+def doctor_error_denied_view(request):
+    authentication_result = authentication_check(request)
+    if authentication_result is not None: return authentication_result
+    template_data = parse_session(request)
+    return render(request, 'Thesis/error/doctordenied.html', template_data)
+    
 
 #-----------for checking user is doctor , patient or admin
 def is_admin(user):
@@ -182,11 +276,11 @@ def is_patient(user):
 
 def afterlogin_view(request):
     if is_admin(request.user):
-        return redirect('admin-dashboard')
+        return redirect('adminnprofile')
     elif is_doctor(request.user):
-        return redirect('doctor-dashboard') 
+        return redirect('doctorprofile') 
     elif is_patient(request.user):
-        return redirect('patient-dashboard')
+        return redirect('patientprofile')
 
 @login_required(login_url='/adminlogin')
 @user_passes_test(is_admin)

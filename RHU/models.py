@@ -138,7 +138,7 @@ class MedicalInfo(models.Model):
                 return item[1]
         return "None"
 
-    patient = models.ForeignKey(User, related_name="patient", on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, related_name="patiento", on_delete=models.CASCADE)
     bloodType = models.CharField(max_length=10, choices=BLOOD)
     allergy = models.CharField(max_length=100)
     alzheimer = models.BooleanField()
@@ -159,3 +159,68 @@ class MedicalInfo(models.Model):
             'comments': self.comments,
         }
         return fields
+
+class Message(models.Model):
+    target = models.ForeignKey(Account, related_name='messages_received', on_delete=models.CASCADE)
+    sender = models.ForeignKey(Account, related_name='messages_sent', on_delete=models.CASCADE)
+    header = models.CharField(max_length=300)
+    body = models.CharField(max_length=1000)
+    read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+class Appointment(models.Model):
+    doctor = models.ForeignKey(User, related_name='doctors', on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, related_name='patients', on_delete=models.CASCADE)
+    description = models.CharField(max_length=200)
+    active = models.BooleanField(default=True)
+    startTime = models.TimeField()
+    endTime = models.TimeField()
+    date = models.DateField()
+
+    def get_populated_fields(self):
+        fields = {
+            'doctor': self.doctor.account,
+            'patient': self.patient.account,
+            'description': self.description,
+            'startTime': self.startTime,
+            'endTime': self.endTime,
+            'date': self.date,
+        }
+        return fields
+
+class MedicalTest(models.Model):
+    name = models.CharField(max_length=50)
+    date = models.DateField()
+    description = models.CharField(max_length=200)
+    doctor = models.ForeignKey(User, related_name='docs', on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, related_name='pts', on_delete=models.CASCADE)
+    private = models.BooleanField(default=True)
+    completed = models.BooleanField()
+
+    def get_populated_fields(self):
+
+        fields = {
+            'name': self.name,
+            'date': self.date,
+            'description': self.description,
+            'doctor': self.doctor.account,
+            'patient': self.patient.accoubt,
+            'private': self.private,
+            'completed': self.completed,
+        }
+
+        return fields
+
+class Prescription(models.Model):
+    patient = models.ForeignKey(User, related_name='patient', on_delete=models.CASCADE)
+    doctor = models.ForeignKey(User, related_name='doctor', on_delete=models.CASCADE)
+    date = models.DateField()
+    medication = models.CharField(max_length=100)
+    strength = models.CharField(max_length=30)
+    instruction = models.CharField(max_length=200)
+    refill = models.IntegerField()
+    active = models.BooleanField(default=True)
+
+class Statistics(models.Model):
+    stats = models.CharField(max_length=100)
+    freq = models.IntegerField(default=0)

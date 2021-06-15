@@ -10,7 +10,7 @@
                         <span class='input-group-addon'><span class="glyphicon glyphicon-time"></span></span>
                         <script type='text/javascript'>
                             $(function () {
-                                $('#form+{{ field.id_for_label }}').datetimepicker({
+                                $('#form_{{ field.id_for_label }}').datetimepicker({
                                     {% if field|isDateField %}
                                         format: 'YYYY-MM-DD'
                                     {% elif field|isDateTimeField %}
