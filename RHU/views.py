@@ -228,7 +228,7 @@ def doctor_register_view(request):
             profile.save()
             account = Account(role=Account.ACCOUNT_DOCTOR, profile=profile, user=user)
             account.save()
-            medicalinfo = MedicalInfo(doctor=account.user, alzheimer=False, asthma=False,
+            medicalinfo = MedicalInfo(patient=account.user, alzheimer=False, asthma=False,
                                       diabetes=False, stroke=False)
             medicalinfo.save()
             user = authenticate(
@@ -276,7 +276,7 @@ def is_patient(user):
 
 def afterlogin_view(request):
     if is_admin(request.user):
-        return redirect('adminnprofile')
+        return redirect('adminprofile')
     elif is_doctor(request.user):
         return redirect('doctorprofile') 
     elif is_patient(request.user):

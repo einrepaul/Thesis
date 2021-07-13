@@ -8,6 +8,8 @@ from RHU import views_appointment
 from RHU import views_medtest
 from RHU import views_prescription
 from RHU import views_admin
+from RHU import views_heatmap
+from RHU import views_morbidityReport
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -39,7 +41,8 @@ urlpatterns = [
     path('admin_profile/message/list/', views_message.admin_list_view, name='message/adminlist'),
 
     path('medicalinfo/patient/', views_medicalInfo.patient_view, name='medicalinfo/patient'),
-    path('medicalinfo/list/', views_medicalInfo.list_view, name='medicalinfo/patient'),
+    path('medicalinfo/list/', views_medicalInfo.list_view, name='medicalinfo/list'),
+    path('medicalinfo/update/', views_medicalInfo.update_view, name='medicalinfo/update'),
 
     path('patient_profile/appointment/create/', views_appointment.patient_create_view, name='appointment/create'),
     path('doctor_profile/appointment/create/', views_appointment.doctor_create_view, name='appointment/create'),
@@ -55,6 +58,13 @@ urlpatterns = [
     path('doctor_profile/prescription/list/', views_prescription.doctor_list_view, name='prescription/doctorlist'),
     path('prescription/create/', views_prescription.create_view, name='prescription/create'),
 
+    path('patient_profile/heatmap/', views_heatmap.heatmap, name='patientheatmap'),
+    path('doctor_profile/heatmap/', views_heatmap.heatmap, name='doctorheatmap'),
+    path('admin_profile/heatmap/', views_heatmap.heatmap, name='adminheatmap'),
+
+    path('report/', views_morbidityReport.create_view, name='morbidityreport/create'),
+    path('report/list', views_morbidityReport.list_view, name='morbidityreport/list'),
+
     path('error/patientdenied/', views.patient_error_denied_view, name='error/patientdenied'),
     path('error/doctordenied/', views.doctor_error_denied_view, name='error/doctordenied'),
     path('error/admindenied/', views.admin_error_denied_view, name='error/admindenied'),
@@ -63,4 +73,6 @@ urlpatterns = [
     path('admin_profile/admin/activity/', views_admin.activity_view, name='admin/activity'),
     path('admin_profile/admin/stats/', views_admin.statistic_view, name='admin/stats'),
     path('admin_profile/admin/createemployee/', views_admin.createemployee_view, name='admin/createemployee'),
+
+    path('download_report', views_morbidityReport.export_users_csv, name='downloadreport'),
 ]

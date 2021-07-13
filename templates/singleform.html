@@ -12,9 +12,9 @@
                             $(function () {
                                 $('#form_{{ field.id_for_label }}').datetimepicker({
                                     {% if field|isDateField %}
-                                        format: 'YYYY-MM-DD'
+                                        format: 'MM-DD-YYYY'
                                     {% elif field|isDateTimeField %}
-                                        format: 'YYYY-MM-DD HH:mm'
+                                        format: 'MM-DD-YYYY HH:mm'
                                     {% elif field|isTimeField %}
                                         format: 'HH:mm'
                                     {% endif %}

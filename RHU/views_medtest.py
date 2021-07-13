@@ -68,7 +68,6 @@ def create_view(request):
             medtest = MedicalTest(
                 name=form.cleaned_data['name'],
                 date=form.cleaned_data['date'],
-                hospital=form.cleaned_data['hospital'],
                 description=form.cleaned_data['description'],
                 doctor=form.cleaned_data['doctor'].user,
                 patient=form.cleaned_data['patient'].user,

@@ -1,5 +1,6 @@
 from datetime import date
 import datetime
+import geocoder
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -94,6 +95,7 @@ class Action(models.Model):
     ACTION_ADMISSION = 7
     ACTION_MEDICALINFO = 8
     ACTION_MESSAGE = 9
+    ACTION_MORBIDITYREPORT = 10
     ACTION_TYPES = (
         (ACTION_NONE, "None"),
         (ACTION_ACCOUNT, "Account"),
@@ -105,6 +107,7 @@ class Action(models.Model):
         (ACTION_ADMISSION, "Admission"),
         (ACTION_MEDICALINFO, "Medical Info"),
         (ACTION_MESSAGE, "Message"),
+        (ACTION_MORBIDITYREPORT, "Morbidity Report"),
     )
 
     @staticmethod
@@ -130,6 +133,8 @@ class MedicalInfo(models.Model):
         ('AB-', 'AB- TYPE'),
         ('O-', 'O- TYPE'),
     )
+    class Meta:
+        verbose_name_plural = 'Medical Info'
 
     @staticmethod
     def toBlood(key):
@@ -197,6 +202,9 @@ class MedicalTest(models.Model):
     private = models.BooleanField(default=True)
     completed = models.BooleanField()
 
+    class Meta:
+        verbose_name_plural = 'Medical Tests'
+
     def get_populated_fields(self):
 
         fields = {
@@ -204,7 +212,7 @@ class MedicalTest(models.Model):
             'date': self.date,
             'description': self.description,
             'doctor': self.doctor.account,
-            'patient': self.patient.accoubt,
+            'patient': self.patient.account,
             'private': self.private,
             'completed': self.completed,
         }
@@ -224,3 +232,66 @@ class Prescription(models.Model):
 class Statistics(models.Model):
     stats = models.CharField(max_length=100)
     freq = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = 'Statistics'
+
+class MorbidityReport(models.Model):
+    BARANGAY = (
+        ('Aripdip', 'Aripdip'),
+        ('Ilongbukid', 'Ilongbukid'),
+        ('Poscolon', 'Poscolon'),
+        ('San Florentino', 'San Florentino'),
+        ('Calaigang', 'Calaigang'),
+        ('San Dionisio', 'San Dionisio'),
+    )
+
+    CLASSIFICATION = (
+        ('C', 'Communicable Disease'),
+        ('NC', 'Non-communicable Disease'),
+    )
+
+    @staticmethod
+    def toBarangay(key):
+        for item in MorbidityReport.BARANGAY:
+            if item[0] == key:
+                return item[1]
+        return "None"
+
+    @staticmethod
+    def toClassification(key):
+        for item in MorbidityReport.CLASSIFICATION:
+            if item[0] == key:
+                return item[1]
+        return "None"
+ 
+    barangay = models.CharField(blank=True, max_length=50, choices=BARANGAY)
+    disease = models.CharField(blank=True, max_length=100)
+    classification = models.CharField(blank=True, max_length=10, choices=CLASSIFICATION)
+    cases = models.IntegerField(blank=True, null=True)
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
+
+    class Meta:
+        verbose_name_plural = 'Morbidity Report'
+
+    def get_populated_fields(self):
+
+        fields = {
+            'barangay': self.barangay,
+            'disease':self.disease,
+            'classification': self.classification,
+            'cases': self.cases,
+        }
+
+        return fields
+
+    def save(self, *args, **kwargs):
+        self.latitude = geocoder.osm(self.barangay).lat
+        self.longitude = geocoder.osm(self.barangay).lng
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.barangay
+
+    

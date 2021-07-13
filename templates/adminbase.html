@@ -47,6 +47,7 @@
                                 <li class="{% block sidebar_profile_password %}{% endblock %}"><a href="/admin_profile/password/">Change Password</a></li>
                                 <li class="{% block sidebar_profile_update %}{% endblock %}"><a href="/admin_profile/update/">Update Profile</a></li>
                                 <li class="{% block sidebar_message %}{% endblock %}"><a href="/admin_profile/message/list/">Messages</a></li>
+                                <li class="{% block sidebar_heatmap %}{% endblock %}"><a href="/admin_profile/heatmap">Heatmap</a></li>
                             {% endif %}
                             {% if user.account.role == 10 %}
                                 <li class="{% block sidebar_medicalinfo_patient %}{% endblock %}"><a href="/medicalinfo/patient/">Medical Info</a></li>
@@ -63,6 +64,8 @@
                                 <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>
                             {% endif %}
                             {% if user.account.role == 30 %}
+                                <li class="{% block sidebar_morbidity_report %}{% endblock %}"><a href="/report/">Morbidity Report</a></li>
+                                <li class="{% block sidebar_list_morbidity_report %}{% endblock %}"><a href="/report/list">View Morbidity Reports</a></li>
                                 <li class="{% block sidebar_admin_users %}{% endblock %}"><a href="/admin_profile/admin/users/">View Users</a></li>
                                 <li class="{% block sidebar_admin_activity %}{% endblock %}"><a href="/admin_profile/admin/activity/">View Activity</a></li>
                                 <li class="{% block sidebar_admin_statistic %}{% endblock %}"><a href="/admin_profile/admin/stats/">View System Statistics</a></li>

@@ -1,0 +1,29 @@
+{% extends "adminbase.html" %}
+{% load app_filters %}
+{% block title %}View Morbidity Reports{% endblock %}
+{% block sidebar_morbidityreport_list %}active{% endblock %}
+{% block body_header %}View Morbidity Reports{% endblock %}
+{% block body_block %}
+    <p class="lead">View all patients' medical info.</p>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=barangay">Barangay</a></th>
+            <th><a href="./?sort=disease">Disease</a></th>
+            <th><a href="./?sort=classification">Classification</a></th>
+            <th><a href="./?sort=cases">No. of cases</a></th>
+        </thead>
+        {% for morbidityreport in query %}
+            <tr>
+                <td>{{ morbidityreport.barangay }}</td>
+                <td>{{ morbidityreport.disease }}</td>
+                <td>{{ morbidityreport.classification }}</td>
+                <td>{{ morbidityreport.cases }}</td>
+                <td>
+                    {% if not user.account.role == 30 %}
+                        <a class="btn btn-warning" href="/report/update/?pk={{ morbidityreport.pk }}" role="button">Update</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

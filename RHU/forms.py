@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from datetime import date
 
-from RHU.models import Account, Profile, MedicalInfo, Appointment
+from RHU.models import Account, Profile, MedicalInfo, Appointment, MorbidityReport
 
 def validate_username_available(username):
     if User.objects.filter(username=username).count():
@@ -234,4 +234,19 @@ class EmployeeRegisterForm(BasicForm):
             self.mark_error('password_second', 'Passwords do not match')
         return cleaned_data
 
-    
+class MorbidityReportForm(BasicForm):
+    barangay = forms.ChoiceField(choices=MorbidityReport.BARANGAY)
+    setup_field(barangay)
+    disease = forms.CharField(max_length=100)
+    setup_field(disease)
+    classification = forms.ChoiceField(choices=MorbidityReport.CLASSIFICATION)
+    setup_field(classification)
+    cases = forms.IntegerField(label="No. of cases")
+    setup_field(cases)
+
+    def assign(self, report):
+        report.barangay = self.cleaned_data['barangay']
+        report.disease = self.cleaned_data['disease']
+        report.classification = self.cleaned_data['classification']
+        report.cases = self.cleaned_data['cases']
+        

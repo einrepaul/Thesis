@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics
+from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics, MorbidityReport
 
 class AccountAdmin(admin.ModelAdmin):
     fields = ['role', 'profile', 'user']
@@ -69,3 +69,16 @@ class StatsAdmin(admin.ModelAdmin):
     list_filter = ('stats','freq')
 
 admin.site.register(Statistics, StatsAdmin)
+
+class MorbidityAdmin(admin.ModelAdmin):
+    fields = [
+        'barangay',
+        'disease',
+        'classification',
+        'cases',
+    ]
+    list_display = ('barangay', 'disease', 'classification', 'cases', 'latitude', 'longitude')
+    readonly_fields = ('latitude', 'longitude')
+    
+admin.site.register(MorbidityReport, MorbidityAdmin)
+

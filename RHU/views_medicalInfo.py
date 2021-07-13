@@ -45,3 +45,34 @@ def list_view(request):
         if request.GET['sort'] == 'allergy':
             template_data['query'] = medicalinfoes.order_by('allergy')
     return render(request, 'Thesis/medicalinfo/list.html', template_data)
+
+def update_view(request):
+    # Authentication check.
+    authentication_result = views.authentication_check(request, [Account.ACCOUNT_DOCTOR])
+    if authentication_result is not None: return authentication_result
+    # Validation Check. Make sure an appointment exists for the given pk.
+    pk = request.GET['pk']
+    try:
+        medicalinfo = MedicalInfo.objects.get(pk=pk)
+    except Exception:
+        request.session['alert_danger'] = "The requested medical info does not exist."
+        return HttpResponseRedirect('/error/doctordenied/')
+    # Get the template data from the session
+    template_data = views.parse_session(request, {'form_button': "Update Medical Info", 'form_action': "?pk=" + pk,
+                                             'medicalinfo': medicalinfo})
+    # Proceed with the rest of the view
+    request.POST._mutable = True
+    request.POST['patient'] = medicalinfo.patient.account.pk
+    if request.method == 'POST':
+        form = MedicalInfoForm(request.POST)
+        if form.is_valid():
+            form.assign(medicalinfo)
+            medicalinfo.save()
+            logger.log(Action.ACTION_MEDICALINFO, 'Medical info updated', request.user)
+            template_data['alert_success'] = "The medical info has been updated!"
+            template_data['form'] = form
+    else:
+        form = MedicalInfoForm(medicalinfo.get_populated_fields())
+        form.disable_field('patient')
+    template_data['form'] = form
+    return render(request, 'Thesis/medicalinfo/update.html', template_data)    
