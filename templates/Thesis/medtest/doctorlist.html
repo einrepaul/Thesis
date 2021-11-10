@@ -5,8 +5,26 @@
 {% block body_header %}View Medical Tests{% endblock %}
 {% block body_block %}
     <p class="lead">View All Uploaded Medical Tests.</p>
+    {% if messages %}
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}{% endif %}
+			        {{ message }}
+			    </li>
+			    {% endfor %}
+			</ul>
+			{% endif %}
+    <form action="{% url 'RHU:importdata' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Import your CSV file</label>
+            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
+          </div>
+          <input class='btn btn-primary col-sm-12' type='submit' value='Import Data' />
+    </form>
     <table class="table table-striped">
         <thead>
+            <th>ID</th>
             <th><a href="./?sort=doctor">Doctor</a></th>
             <th><a href="./?sort=patient">Patient</a></th>
             <th><a href="./?sort=name">Name</a></th>
@@ -16,7 +34,8 @@
         </thead>
         {% for test in query %}
             <tr>
-                <td>{{ test.doctor.account.profile }} </td>
+                <th scope="row">{{ test.id }}</th>
+                <td>{{ test.doctor.account.profile }}</td>
                 <td>{{ test.patient.account.profile }}</td>
                 <td>{{ test.name }}</td>
                 <td>{{ test.date }}</td>
@@ -33,4 +52,5 @@
             </tr>
         {% endfor %}
     </table>
+    <a class='btn btn-primary col-sm-12' href="{% url 'RHU:exportdata' %}">Export Data</a>
 {% endblock %}

@@ -11,6 +11,8 @@ from RHU import views_admin
 from RHU import views_heatmap
 from RHU import views_morbidityReport
 
+app_name='RHU'
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('logout/', views.logout_view, name='logout'),
@@ -52,6 +54,7 @@ urlpatterns = [
     
     path('patient_profile/medtest/list', views_medtest.patient_list_view, name='medtest/patientlist'),
     path('doctor_profile/medtest/list', views_medtest.doctor_list_view, name='medtest/doctorlist'),
+    path('admin_profile/medtest/list', views_medtest.admin_list_view, name='medtest/adminlist'),
     path('medtest/upload/', views_medtest.create_view, name='medtest/upload'),
 
     path('patient_profile/prescription/list/', views_prescription.patient_list_view, name='prescription/patientlist'),
@@ -74,5 +77,6 @@ urlpatterns = [
     path('admin_profile/admin/stats/', views_admin.statistic_view, name='admin/stats'),
     path('admin_profile/admin/createemployee/', views_admin.createemployee_view, name='admin/createemployee'),
 
-    path('download_report', views_morbidityReport.export_users_csv, name='downloadreport'),
+    path('export_data', views_medtest.export_data_csv.as_view(), name='exportdata'),
+    path('import_data', views_medtest.import_data_csv.as_view(), name='importdata'),
 ]

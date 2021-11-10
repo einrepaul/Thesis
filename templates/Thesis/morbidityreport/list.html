@@ -5,6 +5,7 @@
 {% block body_header %}View Morbidity Reports{% endblock %}
 {% block body_block %}
     <p class="lead">View all patients' medical info.</p>
+    <p class="lead">Total: {{ totalNoncommunicable }}</p>
     <table class="table table-striped">
         <thead>
             <th><a href="./?sort=barangay">Barangay</a></th>
@@ -18,7 +19,6 @@
                 <td>{{ morbidityreport.disease }}</td>
                 <td>{{ morbidityreport.classification }}</td>
                 <td>{{ morbidityreport.cases }}</td>
-                <td>
                     {% if not user.account.role == 30 %}
                         <a class="btn btn-warning" href="/report/update/?pk={{ morbidityreport.pk }}" role="button">Update</a>
                     {% endif %}

@@ -1,5 +1,9 @@
 from django.contrib import admin
 
+from import_export import resources
+import import_export
+from import_export.admin import ImportExportActionModelAdmin
+
 from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics, MorbidityReport
 
 class AccountAdmin(admin.ModelAdmin):
@@ -49,6 +53,8 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 admin.site.register(Appointment, AppointmentAdmin)
 
+
+
 class MedicalTestAdmin(admin.ModelAdmin):
     fields = [
         'name',
@@ -60,8 +66,7 @@ class MedicalTestAdmin(admin.ModelAdmin):
         'completed'
     ]
     list_display = ('name', 'doctor', 'patient', 'date')
-
-
+    
 admin.site.register(MedicalTest, MedicalTestAdmin)
 
 class StatsAdmin(admin.ModelAdmin):
@@ -81,4 +86,6 @@ class MorbidityAdmin(admin.ModelAdmin):
     readonly_fields = ('latitude', 'longitude')
     
 admin.site.register(MorbidityReport, MorbidityAdmin)
+
+
 

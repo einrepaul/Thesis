@@ -3,6 +3,7 @@ import datetime
 import geocoder
 
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
@@ -269,6 +270,7 @@ class MorbidityReport(models.Model):
     disease = models.CharField(blank=True, max_length=100)
     classification = models.CharField(blank=True, max_length=10, choices=CLASSIFICATION)
     cases = models.IntegerField(blank=True, null=True)
+    totalcases = models.IntegerField(blank=True, null=True)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
 
@@ -293,5 +295,7 @@ class MorbidityReport(models.Model):
 
     def __str__(self):
         return self.barangay
+
+    
 
     
