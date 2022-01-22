@@ -1,10 +1,10 @@
-{% extends "patientbase.html" %}
+{% extends "adminbase.html" %}
 {% load app_filters %}
-{% block title %}View Appointments{% endblock %}
-{% block sidebar_appointment_list %}active{% endblock %}
-{% block body_header %}View Appointments{% endblock %}
+{% block title %}Approve Appointments{% endblock %}
+{% block sidebar_approve_appointment %}active{% endblock %}
+{% block body_header %}Approve Appointments{% endblock %}
 {% block body_block %}
-    <p class="lead">View all scheduled appointments.</p>
+    
     <table class="table table-striped">
         <thead>
             <th><a href="./?sort=doctor">Doctor</a></th>
@@ -23,8 +23,8 @@
                 <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
                 <td>{{ appointment.date }}</td>
                 <td>{% if appointment.active %}Active{% else %}Pending{% endif %}</td>
-                <td><a class="btn btn-warning" href="/patient_profile/appointment/patientupdate/?pk={{ appointment.pk }}" role="button">Update</a>
-                <a class="btn btn-danger" href="/appointment/patientcancel/?pk={{ appointment.pk }}" role="button">Cancel</a></td>
+                <td><a class="btn btn-warning" href="{% url 'RHU:approve-appointment' appointment.id %}" role="button">Approve</a>
+                <a class="btn btn-danger" href="{% url 'RHU:reject-appointment' appointment.id %}" role="button">Reject</a></td>
             </tr>
         {% endfor %}
     </table>

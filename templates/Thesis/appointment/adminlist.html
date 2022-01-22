@@ -1,4 +1,4 @@
-{% extends "patientbase.html" %}
+{% extends "adminbase.html" %}
 {% load app_filters %}
 {% block title %}View Appointments{% endblock %}
 {% block sidebar_appointment_list %}active{% endblock %}
@@ -13,7 +13,6 @@
             <th><a href="./?sort=time">Time</a></th>
             <th><a href="./?sort=time">Date</a></th>
             <th><a href="./?sort=status">Status</a></th>
-            <th>Options</th>
         </thead>
         {% for appointment in query %}
             <tr>
@@ -23,8 +22,6 @@
                 <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
                 <td>{{ appointment.date }}</td>
                 <td>{% if appointment.active %}Active{% else %}Pending{% endif %}</td>
-                <td><a class="btn btn-warning" href="/patient_profile/appointment/patientupdate/?pk={{ appointment.pk }}" role="button">Update</a>
-                <a class="btn btn-danger" href="/appointment/patientcancel/?pk={{ appointment.pk }}" role="button">Cancel</a></td>
             </tr>
         {% endfor %}
     </table>

@@ -22,7 +22,7 @@
                 <td>{{ appointment.description }}</td>
                 <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
                 <td>{{ appointment.date }}</td>
-                <td>{% if appointment.active %}Active{% else %}Cancelled{% endif %}</td>
+                <td>{% if appointment.active %}Active{% else %}Pending{% endif %}</td>
                 <td>
                     {% if appointment.active %}
                         <a class="btn btn-warning" href="/appointment/patientupdate/?pk={{ appointment.pk }}" role="button">Update</a>

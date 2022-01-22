@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from datetime import date
+from dal import autocomplete
+from django.forms import ModelForm
 
 from RHU.models import Account, Profile, MedicalInfo, Appointment, MorbidityReport
 
@@ -122,30 +124,16 @@ class MessageForm(BasicForm):
     setup_field(body, "Message body")
 
 class MedicalInfoForm(BasicForm):
-    patient = forms.ModelChoiceField(queryset=Account.objects.filter(role=10))
+    patient = forms.CharField(max_length=100, required=False)
     setup_field(patient)
     bloodType = forms.ChoiceField(choices=MedicalInfo.BLOOD, required = False)
     setup_field(bloodType)
-    allergy = forms.CharField(max_length=100, required=False)
-    setup_field(allergy, 'Enter allergies here')
-    alzheimer = forms.BooleanField(required=False)
-    setup_field(alzheimer)
-    asthma = forms.BooleanField(required = False)
-    setup_field(asthma)
-    diabetes = forms.BooleanField(required = False)
-    setup_field(diabetes)
-    stroke = forms.BooleanField(required = False)
-    setup_field(stroke)
     comments = forms.CharField(max_length=500, required=False)
     setup_field(comments, 'Enter additional information here')
-
+    
     def assign(self, medicalInfo):
         medicalInfo.patient = self.cleaned_data['patient'].user
         medicalInfo.bloodType = self.cleaned_data['bloodType']
-        medicalInfo.allergy = self.cleaned_data['allergy']
-        medicalInfo.alzheimer = self.cleaned_data['alzheimer']
-        medicalInfo.asthma = self.cleaned_data['asthma']
-        medicalInfo.stroke = self.cleaned_data['stroke']
         medicalInfo.comments = self.cleaned_data['comments']
 
 class AppointmentForm(BasicForm):
@@ -190,7 +178,7 @@ class MedTestForm(BasicForm):
 
         medtest.name = self.cleaned_data['name']
         medtest.date = self.cleaned_data['date']
-        medtest.desccription = self.cleaned_data['description']
+        medtest.description = self.cleaned_data['description']
         medtest.doctor = self.cleaned_data['doctor']
         medtest.patient = self.cleaned_data['patient']
         medtest.private = self.cleaned_data['private']

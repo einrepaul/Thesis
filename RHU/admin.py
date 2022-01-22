@@ -4,7 +4,7 @@ from import_export import resources
 import import_export
 from import_export.admin import ImportExportActionModelAdmin
 
-from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics, MorbidityReport
+from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics, MorbidityReport, MedicalInfo
 
 class AccountAdmin(admin.ModelAdmin):
     fields = ['role', 'profile', 'user']
@@ -53,7 +53,16 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 admin.site.register(Appointment, AppointmentAdmin)
 
+class MedicalInfoAdmin(admin.ModelAdmin):
+    fields = [
+        'patient',
+        'bloodType',
+        'comments',
+    ]
 
+    list_display = ('patient', 'bloodType', 'comments')
+
+admin.site.register(MedicalInfo, MedicalInfoAdmin)
 
 class MedicalTestAdmin(admin.ModelAdmin):
     fields = [

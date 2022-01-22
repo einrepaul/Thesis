@@ -59,7 +59,8 @@
                                 <li class="{% block sidebar_prescription_list %}{% endblock %}"><a href="/doctor_profile/prescription/list/">View Prescriptions</a></li>
                             {% endif %}
                             {% if user.account.role >= 20 and user.account.role < 30 %}
-                                <li class="{% block sidebar_medicalInfo_list %}{% endblock %}"><a href="/medicalinfo/list/">Medical Info</a></li>
+                                <li class="{% block sidebar_medicalInfo_create %}{% endblock %}"><a href="/medicalinfo/create/">Create Medical Record</a></li>
+                                <li class="{% block sidebar_medicalInfo_list %}{% endblock %}"><a href="/medicalinfo/list/">View Medical Info</a></li>
                                 <li class="{% block sidebar_medtest_upload %}{% endblock %}"><a href="/medtest/upload/">Upload Medical Test</a></li>
                                 <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>
                             {% endif %}
@@ -86,5 +87,14 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.rawgit.com/xcash/bootstrap-autocomplete/3de7ad37/dist/latest/bootstrap-autocomplete.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.basicAutoComplete').autoComplete(
+                {minLength: 1}
+            );
+            $('.dropdown-menu').css({'top': 'auto', 'left': 'auto'})
+        });
+    </script>
 </body>
 </html>

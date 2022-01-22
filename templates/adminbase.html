@@ -55,7 +55,6 @@
                             {% endif %}
                             {% if user.account.role >= 10 and user.account.role < 30 %}
                                 <li class="{% block sidebar_appointment_create %}{% endblock %}"><a href="/appointment/create/">Create Appointment</a></li>
-                                <li class="{% block sidebar_appointment_list %}{% endblock %}"><a href="/appointment/list/">View Appointments</a></li>
                                 <li class="{% block sidebar_prescription_list %}{% endblock %}"><a href="/prescription/list/">View Prescriptions</a></li>
                             {% endif %}
                             {% if user.account.role >= 20 and user.account.role < 30 %}
@@ -64,6 +63,8 @@
                                 <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>
                             {% endif %}
                             {% if user.account.role == 30 %}
+                                <li class="{% block sidebar_approve_appointment %}{% endblock %}"><a href="/admin_profile/appointment/approve/">Approve Appointments</a></li>
+                                <li class="{% block sidebar_appointment_list %}{% endblock %}"><a href="/admin_profile/appointment/list/">View Appointments</a></li>
                                 <li class="{% block sidebar_morbidity_report %}{% endblock %}"><a href="/report/">Morbidity Report</a></li>
                                 <li class="{% block sidebar_list_morbidity_report %}{% endblock %}"><a href="/report/list">View Morbidity Reports</a></li>
                                 <li class="{% block sidebar_admin_users %}{% endblock %}"><a href="/admin_profile/admin/users/">View Users</a></li>

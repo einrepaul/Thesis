@@ -144,24 +144,14 @@ class MedicalInfo(models.Model):
                 return item[1]
         return "None"
 
-    patient = models.ForeignKey(User, related_name="patiento", on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, related_name="patiento", on_delete=models.CASCADE, null=True)
     bloodType = models.CharField(max_length=10, choices=BLOOD)
-    allergy = models.CharField(max_length=100)
-    alzheimer = models.BooleanField()
-    asthma = models.BooleanField()
-    diabetes = models.BooleanField()
-    stroke = models.BooleanField()
     comments = models.CharField(max_length=700)
 
     def get_populated_fields(self):
         fields = {
-            'patient': self.patient.account,
+            'patient': self.patient.user,
             'bloodType': self.bloodType,
-            'allergy': self.allergy,
-            'alzheimer': self.alzheimer,
-            'asthma': self.asthma,
-            'diabetes': self.diabetes,
-            'stroke': self.stroke,
             'comments': self.comments,
         }
         return fields
@@ -178,7 +168,7 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(User, related_name='doctors', on_delete=models.CASCADE)
     patient = models.ForeignKey(User, related_name='patients', on_delete=models.CASCADE)
     description = models.CharField(max_length=200)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     startTime = models.TimeField()
     endTime = models.TimeField()
     date = models.DateField()

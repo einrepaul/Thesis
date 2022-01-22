@@ -43,6 +43,7 @@ urlpatterns = [
     path('admin_profile/message/list/', views_message.admin_list_view, name='message/adminlist'),
 
     path('medicalinfo/patient/', views_medicalInfo.patient_view, name='medicalinfo/patient'),
+    path('medicalinfo/create/', views_medicalInfo.patient_view, name='medicalinfo/create'),
     path('medicalinfo/list/', views_medicalInfo.list_view, name='medicalinfo/list'),
     path('medicalinfo/update/', views_medicalInfo.update_view, name='medicalinfo/update'),
 
@@ -50,20 +51,25 @@ urlpatterns = [
     path('doctor_profile/appointment/create/', views_appointment.doctor_create_view, name='appointment/create'),
 
     path('patient_profile/appointment/list/', views_appointment.patient_list_view, name='appointment/patientlist'),
-    path('doctor_profile/appointment/list/', views_appointment.doctor_list_view, name='appointment/doctorlist'),
+    path('doctor_profile/appointment/list', views_appointment.doctor_list_view, name='appointment/doctorlist'),
+    path('admin_profile/appointment/list', views_appointment.admin_list_view, name='appointment/adminlist'),
+
+    path('patient_profile/appointment/patientupdate', views_appointment.patient_update_view, name='appointment/patientupdate'),
+
+    path('patient_profile/appointment/approve', views_appointment.admin_approve_appointment, name='appointment/approve'),
     
     path('patient_profile/medtest/list', views_medtest.patient_list_view, name='medtest/patientlist'),
     path('doctor_profile/medtest/list', views_medtest.doctor_list_view, name='medtest/doctorlist'),
     path('admin_profile/medtest/list', views_medtest.admin_list_view, name='medtest/adminlist'),
     path('medtest/upload/', views_medtest.create_view, name='medtest/upload'),
 
-    path('patient_profile/prescription/list/', views_prescription.patient_list_view, name='prescription/patientlist'),
-    path('doctor_profile/prescription/list/', views_prescription.doctor_list_view, name='prescription/doctorlist'),
-    path('prescription/create/', views_prescription.create_view, name='prescription/create'),
+    path('patient_profile/prescription/list', views_prescription.patient_list_view, name='prescription/patientlist'),
+    path('doctor_profile/prescription/list', views_prescription.doctor_list_view, name='prescription/doctorlist'),
+    path('prescription/create', views_prescription.create_view, name='prescription/create'),
 
-    path('patient_profile/heatmap/', views_heatmap.heatmap, name='patientheatmap'),
-    path('doctor_profile/heatmap/', views_heatmap.heatmap, name='doctorheatmap'),
-    path('admin_profile/heatmap/', views_heatmap.heatmap, name='adminheatmap'),
+    path('patient_profile/heatmap', views_heatmap.heatmap, name='patientheatmap'),
+    path('doctor_profile/heatmap', views_heatmap.heatmap, name='doctorheatmap'),
+    path('admin_profile/heatmap', views_heatmap.heatmap, name='adminheatmap'),
 
     path('report/', views_morbidityReport.create_view, name='morbidityreport/create'),
     path('report/list', views_morbidityReport.list_view, name='morbidityreport/list'),
@@ -72,6 +78,7 @@ urlpatterns = [
     path('error/doctordenied/', views.doctor_error_denied_view, name='error/doctordenied'),
     path('error/admindenied/', views.admin_error_denied_view, name='error/admindenied'),
     
+    path('admin_profile/appointment/approve/', views_appointment.admin_approve_appointment, name='admin-appointment-approve'),
     path('admin_profile/admin/users/', views_admin.users_view, name='admin/users'),
     path('admin_profile/admin/activity/', views_admin.activity_view, name='admin/activity'),
     path('admin_profile/admin/stats/', views_admin.statistic_view, name='admin/stats'),
@@ -79,4 +86,7 @@ urlpatterns = [
 
     path('export_data', views_medtest.export_data_csv.as_view(), name='exportdata'),
     path('import_data', views_medtest.import_data_csv.as_view(), name='importdata'),
+
+    path('approve-appointment/<int:pk>', views_appointment.approve_appointment_view, name='approve-appointment'),
+    path('reject-appointment/<int:pk>', views_appointment.reject_appointment_view,name='reject-appointment'),
 ]
