@@ -1,0 +1,57 @@
+{% extends "doctorbase.html" %}
+{% load app_filters %}
+{% block title %}View Medical Info{% endblock %}
+{% block sidebar_medicalinfo_list %}active{% endblock %}
+{% block body_header %}View Medical Info{% endblock %}
+{% block body_block %}
+    <p class="lead">View all patients' medical info.</p>
+    <form method="GET" action="search">
+        <div class="form-inline">
+            <input type="text" placeholder="Search" name="search" class="form-control" required="required" />
+            <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span> Search</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=date">Date</a></th>
+            <th><a href="./?sort=caseNumber">Case Number</a></th>
+            <th><a href="./?sort=name">Name</a></th>
+            <th><a href="./?sort=age">Age</a></th>
+            <th><a href="./?sort=sex">Sex</a></th>
+            <th><a href="./?sort=civilStatus">Civil Status</a></th>
+            <th><a href="./?sort=address">Address</a></th>
+            <th><a href="./?sort=temperature">Temperature</a></th>
+            <th><a href="./?sort=pulse">Pulse</a></th>
+            <th><a href="./?sort=respiration">Respiration</a></th>
+            <th><a href="./?sort=bloodPressure">Blood Pressure</a></th>
+            <th><a href="./?sort=bloodType">Blood Type</a></th>
+            <th><a href="./?sort=height">Height</a></th>
+            <th><a href="./?sort=weight">Weight</a></th>
+            <th><a href="./?sort=comments">Comments</a></th>
+        </thead>
+        {% for medicalinfo in query %}
+            <tr>
+                <td>{{ medicalinfo.date }}</td>
+                <td>{{ medicalinfo.caseNumber }}</td>
+                <td>{{ medicalinfo.patient.account.profile }}</td>
+                <td>{{ medicalinfo.age }}</td>
+                <td>{{ medicalinfo.sex }}</td>
+                <td>{{ medicalinfo.civilStatus }}</td>
+                <td>{{ medicalinfo.address }}</td>
+                <td>{{ medicalinfo.temperature }}</td>
+                <td>{{ medicalinfo.pulse }}</td>
+                <td>{{ medicalinfo.respiration }}</td>
+                <td>{{ medicalinfo.bloodPressure }}</td>
+                <td>{{ medicalinfo.bloodType }}</td>
+                <td>{{ medicalinfo.height }}</td>
+                <td>{{ medicalinfo.weight }}</td>
+                <td>{{ medicalinfo.comments }}</td>
+                <td>
+                    {% if not user.account.role == 10 %}
+                        <a class="btn btn-warning" href="/medicalinfo/update/?pk={{ medicalinfo.pk }}" role="button">Update</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

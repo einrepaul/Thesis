@@ -50,9 +50,9 @@
                                 <li class="{% block sidebar_heatmap %}{% endblock %}"><a href="/patient_profile/heatmap/">Heatmap</a></li>
                             {% endif %}
                             {% if user.account.role == 10 %}
-                                <li class="{% block sidebar_medicalinfo_patient %}{% endblock %}"><a href="/medicalinfo/patient/">Medical Info</a></li>
                             {% endif %}
                             {% if user.account.role >= 10 and user.account.role < 30 %}
+                                <li class="{% block sidebar_medicalinfo_list %}{% endblock %}"><a href="/patient_profile/medicalinfo/list/">View Medical Records</a></li>
                                 <li class="{% block sidebar_appointment_create %}{% endblock %}"><a href="/patient_profile/appointment/create/">Create Appointment</a></li>
                                 <li class="{% block sidebar_appointment_list %}{% endblock %}"><a href="/patient_profile/appointment/list/">View Appointments</a></li>
                                 <li class="{% block sidebar_medtest_list %}{% endblock %}"><a href="/patient_profile/medtest/list">View Medical Tests</a> </li>

@@ -55,12 +55,26 @@ admin.site.register(Appointment, AppointmentAdmin)
 
 class MedicalInfoAdmin(admin.ModelAdmin):
     fields = [
+        'date',
+        'caseNumber',
         'patient',
+        'age',
+        'sex',
+        'civilStatus',
+        'barangay',
+        'temperature',
+        'pulse',
+        'respiration',
+        'bloodPressure',
+        'height',
+        'weight',
         'bloodType',
         'comments',
     ]
 
-    list_display = ('patient', 'bloodType', 'comments')
+    list_display = ('date', 'caseNumber', 'patient', 'age', 'sex', 
+    'civilStatus', 'barangay', 'temperature', 'pulse', 'respiration', 
+    'bloodPressure', 'bloodType', 'height', 'weight', 'comments')
 
 admin.site.register(MedicalInfo, MedicalInfoAdmin)
 
@@ -77,6 +91,11 @@ class MedicalTestAdmin(admin.ModelAdmin):
     list_display = ('name', 'doctor', 'patient', 'date')
     
 admin.site.register(MedicalTest, MedicalTestAdmin)
+
+class MedicalTestResource(resources.ModelResource):
+
+    class Meta:
+        model = MedicalTest
 
 class StatsAdmin(admin.ModelAdmin):
     readonly_fields = ('stats', 'freq')

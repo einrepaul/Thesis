@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     GENDER = (
+        ('', '-----'),
         ('M', 'Male'),
         ('F', 'Female'),
     )
@@ -21,7 +22,7 @@ class Profile(models.Model):
 
     firstname = models.CharField(blank=True, max_length=50)
     lastname = models.CharField(blank=True, max_length=50)
-    sex = models.CharField(blank=True, max_length=1, choices=GENDER)
+    sex = models.CharField(default=0, blank=True, max_length=1, choices=GENDER)
     birthday = models.DateField(default=date(1000, 1, 1))
     phone = models.CharField(blank=True, max_length=20)
     created = models.DateTimeField(auto_now_add=True)
@@ -124,7 +125,24 @@ class Action(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class MedicalInfo(models.Model):
+    GENDER = (
+        ('', '-----'),
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+
+    BARANGAY = (
+        ('', '------'),
+        ('Aripdip', 'Aripdip'),
+        ('Ilongbukid', 'Ilongbukid'),
+        ('Poscolon', 'Poscolon'),
+        ('San Florentino', 'San Florentino'),
+        ('Calaigang', 'Calaigang'),
+        ('San Dionisio', 'San Dionisio'),
+    )
+
     BLOOD = (
+        ('', '-----'),
         ('A+', 'A+ TYPE'),
         ('B+', 'B+ TYPE'),
         ('AB+', 'AB+ TYPE'),
@@ -134,6 +152,16 @@ class MedicalInfo(models.Model):
         ('AB-', 'AB- TYPE'),
         ('O-', 'O- TYPE'),
     )
+
+    CIVIL_STATUS = (
+        ('', '-----'),
+        ('Single', 'Single'),
+        ('Married', 'Married'),
+        ('Divorced', 'Divorced'),
+        ('Separated', 'Separated'),
+        ('Widowed', 'Widowed'),
+    )
+
     class Meta:
         verbose_name_plural = 'Medical Info'
 
@@ -144,13 +172,51 @@ class MedicalInfo(models.Model):
                 return item[1]
         return "None"
 
-    patient = models.ForeignKey(User, related_name="patiento", on_delete=models.CASCADE, null=True)
-    bloodType = models.CharField(max_length=10, choices=BLOOD)
+    @staticmethod
+    def toGender(key):
+        for item in MedicalInfo.GENDER:
+            if item[0] == key:
+                return item[1]
+        return "None"
+
+    @staticmethod
+    def toCivilStatus(key):
+        for item in MedicalInfo.CIVIL_STATUS:
+            if item[0] == key:
+                return item[1]
+        return "None"
+
+    date = models.DateField(null=True)
+    caseNumber = models.CharField(max_length=10, null=True)
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    age = models.CharField(max_length=3, null=True)
+    sex = models.CharField(default=0, blank=True, max_length=1, choices=GENDER)
+    civilStatus = models.CharField(default=0, blank=True, max_length=20, choices=CIVIL_STATUS)
+    barangay = models.CharField(default=0, blank=True, max_length=50, choices=BARANGAY)
+    temperature = models.CharField(max_length=5, null=True)
+    pulse = models.CharField(max_length=5, null=True)
+    respiration = models.CharField(max_length=5, null=True)
+    bloodPressure = models.CharField(max_length=10, null=True)
+    height = models.CharField(max_length=5, null=True)
+    weight = models.CharField(max_length=5, null=True)
+    bloodType = models.CharField(default=0, max_length=10, choices=BLOOD)
     comments = models.CharField(max_length=700)
 
     def get_populated_fields(self):
         fields = {
+            'date': self.date,
+            'case_number': self.caseNumber,
             'patient': self.patient.user,
+            'age': self.age,
+            'sex': self.sex,
+            'civil_status': self.civilStatus,
+            'address': self.address,
+            'temperature': self.temperature,
+            'pulse': self.pulse,
+            'respiration': self.respiration,
+            'bloodPressure': self.bloodPressure,
+            'height': self.height,
+            'weight': self.weight,
             'bloodType': self.bloodType,
             'comments': self.comments,
         }

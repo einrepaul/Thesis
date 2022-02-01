@@ -44,15 +44,17 @@ urlpatterns = [
 
     path('medicalinfo/patient/', views_medicalInfo.patient_view, name='medicalinfo/patient'),
     path('medicalinfo/create/', views_medicalInfo.patient_view, name='medicalinfo/create'),
-    path('medicalinfo/list/', views_medicalInfo.list_view, name='medicalinfo/list'),
+    path('patient_profile/medicalinfo/list/', views_medicalInfo.patient_list_view, name='medicalinfo/patientlist'),
+    path('doctor_profile/medicalinfo/list/', views_medicalInfo.doctor_list_view, name='medicalinfo/doctorlist'),
+    path('doctor_profile/medicalinfo/list/search', views_medicalInfo.patient_history, name='medicalinfo/patienthistory'),
     path('medicalinfo/update/', views_medicalInfo.update_view, name='medicalinfo/update'),
 
     path('patient_profile/appointment/create/', views_appointment.patient_create_view, name='appointment/create'),
     path('doctor_profile/appointment/create/', views_appointment.doctor_create_view, name='appointment/create'),
 
     path('patient_profile/appointment/list/', views_appointment.patient_list_view, name='appointment/patientlist'),
-    path('doctor_profile/appointment/list', views_appointment.doctor_list_view, name='appointment/doctorlist'),
-    path('admin_profile/appointment/list', views_appointment.admin_list_view, name='appointment/adminlist'),
+    path('doctor_profile/appointment/list/', views_appointment.doctor_list_view, name='appointment/doctorlist'),
+    path('admin_profile/appointment/list/', views_appointment.admin_list_view, name='appointment/adminlist'),
 
     path('patient_profile/appointment/patientupdate', views_appointment.patient_update_view, name='appointment/patientupdate'),
 
@@ -73,6 +75,8 @@ urlpatterns = [
 
     path('report/', views_morbidityReport.create_view, name='morbidityreport/create'),
     path('report/list', views_morbidityReport.list_view, name='morbidityreport/list'),
+    path('doctor_profile/report/', views_morbidityReport.doctor_create_view, name='morbidityreport/doctorcreate'),
+    path('doctor_profile/report/list', views_morbidityReport.doctor_list_view, name='morbidityreport/doctorlist'),
 
     path('error/patientdenied/', views.patient_error_denied_view, name='error/patientdenied'),
     path('error/doctordenied/', views.doctor_error_denied_view, name='error/doctordenied'),

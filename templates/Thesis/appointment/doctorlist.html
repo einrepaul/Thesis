@@ -18,7 +18,7 @@
         {% for appointment in query %}
             <tr>
                 <td>{{ appointment.doctor.account.profile }}</td>
-                <td>{{ appointment.patient.account.profile }}</td>
+                <td><a href="{% url 'RHU:medicalinfo/patientlist' user.id %}">{{ appointment.patient.account.profile }}</a></td>
                 <td>{{ appointment.description }}</td>
                 <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
                 <td>{{ appointment.date }}</td>

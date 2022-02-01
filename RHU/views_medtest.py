@@ -116,7 +116,7 @@ class import_data_csv(View):
     template_name = 'Thesis/medtest/patientlist.html'
 
     def get(self, request, *args, **kwargs):
-        data = MedicalTest.objects.all().values_list('doctor', 'patient', 'name', 'date', 'status')
+        data = MedicalTest.objects.all().values_list('id','doctor', 'patient', 'name', 'date', 'status')
         return render(request, self.template_name, {"data":data})
 
     def post(self, request, *args, **kwargs):
@@ -130,8 +130,8 @@ class import_data_csv(View):
             next(io_string)
             for col in csv.reader(io_string, delimiter=',', quotechar="|"):
                 obj, created = MedicalTest.objects.update_or_create(
-                    doctor=col[0], patient=col[1], name=col[2], date=col[3], status=col[4])
-        data = MedicalTest.objects.all().values_list('doctor', 'patient', 'name', 'date', 'status')
+                   id=[0], doctor=col[1], patient=col[2], name=col[3], date=col[4], status=col[5])
+        data = MedicalTest.objects.all().values_list('id', 'doctor', 'patient', 'name', 'date', 'status')
         return render(request, self.template_name, {"data": data})
                 
 class export_data_csv(View):
@@ -140,7 +140,7 @@ class export_data_csv(View):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="data.csv"'
         writer = csv.writer(response, delimiter=',')
-        writer.writerow(['doctor', 'patient', 'name', 'date', 'status'])
+        writer.writerow(['id', 'doctor', 'patient', 'name', 'date', 'status'])
         for obj in data:
-            writer.writerow([obj.doctor.account.profile, obj.patient.account.profile, obj.name, obj.date, obj.completed])
+            writer.writerow([obj.id, obj.doctor.account.profile, obj.patient.account.profile, obj.name, obj.date, obj.completed])
         return response

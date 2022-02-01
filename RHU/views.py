@@ -228,8 +228,7 @@ def doctor_register_view(request):
             profile.save()
             account = Account(role=Account.ACCOUNT_DOCTOR, profile=profile, user=user)
             account.save()
-            medicalinfo = MedicalInfo(patient=account.user, alzheimer=False, asthma=False,
-                                      diabetes=False, stroke=False)
+            medicalinfo = MedicalInfo(patient=account.user)
             medicalinfo.save()
             user = authenticate(
                 username = form.cleaned_data['email'].lower(),\

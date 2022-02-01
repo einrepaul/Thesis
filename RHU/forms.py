@@ -124,15 +124,51 @@ class MessageForm(BasicForm):
     setup_field(body, "Message body")
 
 class MedicalInfoForm(BasicForm):
-    patient = forms.CharField(max_length=100, required=False)
+    date = forms.DateField()
+    setup_field(date)
+    caseNumber = forms.CharField(max_length=10) 
+    setup_field(caseNumber)
+    patient = forms.ModelChoiceField(queryset=Account.objects.filter(role=10))
     setup_field(patient)
+    age = forms.CharField(max_length=3)
+    setup_field(age)
+    sex = forms.ChoiceField(required=False, choices=MedicalInfo.GENDER)
+    setup_field(sex)
+    civilStatus = forms.ChoiceField(required=False, choices=MedicalInfo.CIVIL_STATUS)
+    setup_field(civilStatus)
+    barangay = forms.ChoiceField(required=False, choices=MedicalInfo.BARANGAY)
+    setup_field(barangay)
+    temperature = forms.CharField(max_length=5)
+    setup_field(temperature)
+    pulse = forms.CharField(max_length=5)
+    setup_field(pulse)
+    respiration = forms.CharField(max_length=5)
+    setup_field(respiration)
+    bloodPressure = forms.CharField(max_length=10)
+    setup_field(bloodPressure)
     bloodType = forms.ChoiceField(choices=MedicalInfo.BLOOD, required = False)
     setup_field(bloodType)
+    height = forms.CharField(max_length=5)
+    setup_field(height, 'height in cm')
+    weight = forms.CharField(max_length=5)
+    setup_field(weight, 'weight in kg')
     comments = forms.CharField(max_length=500, required=False)
     setup_field(comments, 'Enter additional information here')
     
     def assign(self, medicalInfo):
+        medicalInfo.date = self.cleaned_data['date']
+        medicalInfo.caseNumber = self.cleaned_data['caseNumber']
         medicalInfo.patient = self.cleaned_data['patient'].user
+        medicalInfo.age = self.cleaned_data['age']
+        medicalInfo.sex = self.cleaned_data['sex']
+        medicalInfo.civilStatus = self.cleaned_data['civilStatus']
+        medicalInfo.barangay = self.cleaned_data['barangay']
+        medicalInfo.temperature = self.cleaned_data['temperature']
+        medicalInfo.pulse = self.cleaned_data['pulse']
+        medicalInfo.respiration = self.cleaned_data['respiration']
+        medicalInfo.bloodPressure = self.cleaned_data['bloodPressure']
+        medicalInfo.height = self.cleaned_data['height']
+        medicalInfo.weight = self.cleaned_data['weight']
         medicalInfo.bloodType = self.cleaned_data['bloodType']
         medicalInfo.comments = self.cleaned_data['comments']
 
