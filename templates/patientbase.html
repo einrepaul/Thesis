@@ -56,12 +56,12 @@
                                 <li class="{% block sidebar_appointment_create %}{% endblock %}"><a href="/patient_profile/appointment/create/">Create Appointment</a></li>
                                 <li class="{% block sidebar_appointment_list %}{% endblock %}"><a href="/patient_profile/appointment/list/">View Appointments</a></li>
                                 <li class="{% block sidebar_medtest_list %}{% endblock %}"><a href="/patient_profile/medtest/list">View Medical Tests</a> </li>
-                                <li class="{% block sidebar_prescription_list %}{% endblock %}"><a href="/patient_profile/prescription/list/">View Prescriptions</a></li>
+                            <!--    <li class="{% block sidebar_prescription_list %}{% endblock %}"><a href="/patient_profile/prescription/list/">View Prescriptions</a></li> -->
                             {% endif %}
                             {% if user.account.role >= 20 and user.account.role < 30 %}
                                 <li class="{% block sidebar_medicalInfo_list %}{% endblock %}"><a href="/medicalinfo/list/">Medical Info</a></li>
                                 <li class="{% block sidebar_medtest_upload %}{% endblock %}"><a href="/medtest/upload/">Upload Medical Test</a></li>
-                                <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>
+                            <!--    <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li> -->
                             {% endif %}
                             {% if user.account.role == 30 %}
                                 <li class="{% block sidebar_admin_users %}{% endblock %}"><a href="/admin/users/">View Users</a></li>

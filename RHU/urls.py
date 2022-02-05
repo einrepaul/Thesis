@@ -46,7 +46,8 @@ urlpatterns = [
     path('medicalinfo/create/', views_medicalInfo.patient_view, name='medicalinfo/create'),
     path('patient_profile/medicalinfo/list/', views_medicalInfo.patient_list_view, name='medicalinfo/patientlist'),
     path('doctor_profile/medicalinfo/list/', views_medicalInfo.doctor_list_view, name='medicalinfo/doctorlist'),
-    path('doctor_profile/medicalinfo/list/search', views_medicalInfo.patient_history, name='medicalinfo/patienthistory'),
+    path('doctor_profile/medicalinfo/search/', views_medicalInfo.doctor_search_view, name='medicalinfo/doctorsearch'),
+    path('doctor_profile/medicalinfo/search/search', views_medicalInfo.patient_history, name='medicalinfo/patienthistory'),
     path('medicalinfo/update/', views_medicalInfo.update_view, name='medicalinfo/update'),
 
     path('patient_profile/appointment/create/', views_appointment.patient_create_view, name='appointment/create'),
@@ -69,7 +70,7 @@ urlpatterns = [
     path('doctor_profile/prescription/list', views_prescription.doctor_list_view, name='prescription/doctorlist'),
     path('prescription/create', views_prescription.create_view, name='prescription/create'),
 
-    path('patient_profile/heatmap', views_heatmap.heatmap, name='patientheatmap'),
+    path('patient_profile/heatmap/', views_heatmap.heatmap, name='patientheatmap'),
     path('doctor_profile/heatmap', views_heatmap.heatmap, name='doctorheatmap'),
     path('admin_profile/heatmap', views_heatmap.heatmap, name='adminheatmap'),
 
@@ -88,8 +89,8 @@ urlpatterns = [
     path('admin_profile/admin/stats/', views_admin.statistic_view, name='admin/stats'),
     path('admin_profile/admin/createemployee/', views_admin.createemployee_view, name='admin/createemployee'),
 
-    path('export_data', views_medtest.export_data_csv.as_view(), name='exportdata'),
-    path('import_data', views_medtest.import_data_csv.as_view(), name='importdata'),
+    path('export_data', views_medicalInfo.export_data_csv.as_view(), name='exportdata'),
+    path('import_data', views_medicalInfo.import_data_csv.as_view(), name='importdata'),
 
     path('approve-appointment/<int:pk>', views_appointment.approve_appointment_view, name='approve-appointment'),
     path('reject-appointment/<int:pk>', views_appointment.reject_appointment_view,name='reject-appointment'),
