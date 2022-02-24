@@ -210,7 +210,7 @@ class MedicalInfo(models.Model):
             'age': self.age,
             'sex': self.sex,
             'civil_status': self.civilStatus,
-            'address': self.address,
+            'barangay': self.barangay,
             'temperature': self.temperature,
             'pulse': self.pulse,
             'respiration': self.respiration,
