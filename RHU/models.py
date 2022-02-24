@@ -187,7 +187,7 @@ class MedicalInfo(models.Model):
         return "None"
 
     date = models.DateField(null=True)
-    caseNumber = models.CharField(max_length=10, null=True)
+    caseNumber = models.CharField(max_length=10, primary_key=True)
     patient = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     age = models.CharField(max_length=3, null=True)
     sex = models.CharField(default=0, blank=True, max_length=1, choices=GENDER)
@@ -300,7 +300,6 @@ class MorbidityReport(models.Model):
         ('Poscolon', 'Poscolon'),
         ('San Florentino', 'San Florentino'),
         ('Calaigang', 'Calaigang'),
-        ('San Dionisio', 'San Dionisio'),
     )
 
     CLASSIFICATION = (

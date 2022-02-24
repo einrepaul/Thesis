@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from pickle import TRUE
 
 SETTINGS_DIR = os.path.dirname(__file__)
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'RHU',
     'widget_tweaks',
     'bootstrap_modal_forms',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,5 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/afterlogin'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = TRUE

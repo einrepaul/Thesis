@@ -22,7 +22,14 @@
                 <td>{{ appointment.description }}</td>
                 <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
                 <td>{{ appointment.date }}</td>
-                <td>{% if appointment.active %}Active{% else %}Pending{% endif %}</td>
+                <td>
+                    {% if appointment.active %}
+                    <div class="appointment=approve" style="color:green">Approved
+                    {% else %}
+                    <div class="appointment-pending" style="color:red">Pending
+                    {% endif %}
+                    </div>
+                </td>
                 <td><a class="btn btn-warning" href="/patient_profile/appointment/patientupdate/?pk={{ appointment.pk }}" role="button">Update</a>
                 <a class="btn btn-danger" href="/appointment/patientcancel/?pk={{ appointment.pk }}" role="button">Cancel</a></td>
             </tr>

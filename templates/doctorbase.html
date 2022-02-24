@@ -59,10 +59,11 @@
                                 <li class="{% block sidebar_prescription_list %}{% endblock %}"><a href="/doctor_profile/prescription/list/">View Prescriptions</a></li>
                             {% endif %}
                             {% if user.account.role >= 20 and user.account.role < 30 %}
-                                <li class="{% block sidebar_medtest_list %}{% endblock %}"><a href="/doctor_profile/medtest/list">View Medical Tests</a> </li>
-                                <li class="{% block sidebar_medtest_upload %}{% endblock %}"><a href="/medtest/upload/">Upload Medical Test</a></li>
+                                <!--<li class="{% block sidebar_medtest_list %}{% endblock %}"><a href="/doctor_profile/medtest/list">View Medical Tests</a></li>#
+                                <li class="{% block sidebar_medtest_upload %}{% endblock %}"><a href="/medtest/upload/">Upload Medical Test</a></li>-->
                                 <li class="{% block sidebar_medicalInfo_create %}{% endblock %}"><a href="/medicalinfo/create/">Create Medical Record</a></li>
-                                <li class="{% block sidebar_medicalInfo_list %}{% endblock %}"><a href="/doctor_profile/medicalinfo/list/">View Patient History</a></li>
+                                <li class="{% block sidebar_medicalInfo_list %}{% endblock %}"><a href="/doctor_profile/medicalinfo/list/">View Medical Records</a></li>
+                                <li class="{% block sidebar_medicalInfo_search %}{% endblock %}"><a href="/doctor_profile/medicalinfo/search/">View Patient History</a></li>
                                 <li class="{% block sidebar_morbidity_report %}{% endblock %}"><a href="/doctor_profile/report/">Morbidity Report</a></li>
                                 <li class="{% block sidebar_list_morbidity_report %}{% endblock %}"><a href="/doctor_profile/report/list">View Morbidity Reports</a></li>
                                 <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>

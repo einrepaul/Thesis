@@ -18,14 +18,14 @@
         {% for appointment in query %}
             <tr>
                 <td>{{ appointment.doctor.account.profile }}</td>
-                <td><a href="{% url 'RHU:medicalinfo/patientlist' user.id %}">{{ appointment.patient.account.profile }}</a></td>
+                <td>{{ appointment.patient.account.profile }}</td>
                 <td>{{ appointment.description }}</td>
                 <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
                 <td>{{ appointment.date }}</td>
-                <td>{% if appointment.active %}Active{% else %}Pending{% endif %}</td>
+                <td>{% if appointment.active %}Approved{% else %}Pending{% endif %}</td>
                 <td>
                     {% if appointment.active %}
-                        <a class="btn btn-warning" href="/appointment/patientupdate/?pk={{ appointment.pk }}" role="button">Update</a>
+                        <a class="btn btn-warning" href="/appointment/patientupdate/?pk={{ appointment.pk }}" role="button">Edi</a>
                         {% if not user.account.role == 20 %}
                             <a class="btn btn-danger" href="/appointment/patientcancel/?pk={{ appointment.pk }}" role="button">Cancel</a>
                         {% endif %}

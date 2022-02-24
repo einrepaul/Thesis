@@ -1,4 +1,5 @@
 import logging
+from tkinter import E
 
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
@@ -32,11 +33,20 @@ def patient_create_view(request):
                 endTime=form.cleaned_data['endTime'],
                 date=form.cleaned_data['date'],
             )
-            appt.save()
-            logger.log(Action.ACTION_APPOINTMENT, 'Appointment created', request.user)
-            form = AppointmentForm(default)
-            form._errors = {}
-            template_data['alert_success'] = 'Successfully created your appointment!'
+
+            start_conflict = Appointment.objects.filter(startTime__range=(Appointment.startTime, Appointment.endTime))
+            end_conflict = Appointment.objects.filter(endTime__range=(Appointment.startTime, Appointment.endTime))
+            during_conflict = Appointment.objects.filter(startDate__lte=Appointment.startTime, endDate__gte=Appointment.endTime)
+
+            if (start_conflict or end_conflict or during_conflict):
+                template_data['alert_danger'] = 'There is a conflict of schedule. Please choose another time.'
+
+            else:
+                appt.save()
+                logger.log(Action.ACTION_APPOINTMENT, 'Appointment created', request.user)
+                form = AppointmentForm(default)
+                form._errors = {}
+                template_data['alert_success'] = 'Successfully created your appointment!'
     else:
         form._errors = {}
     if request.user.account.role == Account.ACCOUNT_PATIENT:
