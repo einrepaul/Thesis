@@ -1,10 +1,11 @@
 from django.contrib import admin
+from RHU.resources import MedicalInfoResource
 
 from import_export import resources
 import import_export
-from import_export.admin import ImportExportActionModelAdmin
+from import_export.admin import ImportExportModelAdmin
 
-from RHU.models import Account, Profile, Action, Appointment, MedicalTest, Statistics, MorbidityReport, MedicalInfo
+from RHU.models import Account, Profile, Action, TimeSlot, Appointment, MedicalTest, Statistics, MorbidityReport, MedicalInfo
 
 class AccountAdmin(admin.ModelAdmin):
     fields = ['role', 'profile', 'user']
@@ -44,18 +45,25 @@ class AppointmentAdmin(admin.ModelAdmin):
         'patient',
         'description',
         'active',
-        'startTime',
-        'endTime',
-        'date'
+        'timeslot',
+        'appt_date'
     ]
-    list_display = ('description','date', 'doctor', 'patient', 'startTime', 'endTime', 'active')
-
+    list_display = ('description','doctor', 'patient', 'active', 'timeslot', 'appt_date')
 
 admin.site.register(Appointment, AppointmentAdmin)
 
+class TimeSlotAdmin(admin.ModelAdmin):
+    fields = [
+        'startTime',
+        'endTime',
+        'end_date'
+    ]
+    list_display = ('startTime', 'endTime', 'end_date')
+
+admin.site.register(TimeSlot, TimeSlotAdmin)
+
 class MedicalInfoAdmin(admin.ModelAdmin):
     fields = [
-        'date',
         'caseNumber',
         'patient',
         'age',
@@ -71,10 +79,15 @@ class MedicalInfoAdmin(admin.ModelAdmin):
         'bloodType',
         'comments',
     ]
+   
+class MedicalInfoAdmin(ImportExportModelAdmin):
 
-    list_display = ('date', 'caseNumber', 'patient', 'age', 'sex', 
+    resource_class = MedicalInfoResource
+
+    list_display = ('caseNumber', 'patient', 'age', 'sex', 
     'civilStatus', 'barangay', 'temperature', 'pulse', 'respiration', 
     'bloodPressure', 'bloodType', 'height', 'weight', 'comments')
+    pass
 
 admin.site.register(MedicalInfo, MedicalInfoAdmin)
 

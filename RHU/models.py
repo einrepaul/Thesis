@@ -91,18 +91,20 @@ class Action(models.Model):
     ACTION_ACCOUNT = 1
     ACTION_PATIENT = 2
     ACTION_ADMIN = 3
-    ACTION_APPOINTMENT = 4
-    ACTION_MEDTEST = 5
-    ACTION_PRESCRIPTION = 6
-    ACTION_ADMISSION = 7
-    ACTION_MEDICALINFO = 8
-    ACTION_MESSAGE = 9
-    ACTION_MORBIDITYREPORT = 10
+    ACTION_TIMESLOT = 4
+    ACTION_APPOINTMENT = 5
+    ACTION_MEDTEST = 6
+    ACTION_PRESCRIPTION = 7
+    ACTION_ADMISSION = 8
+    ACTION_MEDICALINFO = 9
+    ACTION_MESSAGE = 10
+    ACTION_MORBIDITYREPORT = 11
     ACTION_TYPES = (
         (ACTION_NONE, "None"),
         (ACTION_ACCOUNT, "Account"),
         (ACTION_PATIENT, "Patient"),
         (ACTION_ADMIN, "Admin"),
+        (ACTION_TIMESLOT, "Time Slot"),
         (ACTION_APPOINTMENT, "Appointment"),
         (ACTION_MEDTEST, "Medical Test"),
         (ACTION_PRESCRIPTION, "Prescription"),
@@ -186,8 +188,7 @@ class MedicalInfo(models.Model):
                 return item[1]
         return "None"
 
-    date = models.DateField(null=True)
-    caseNumber = models.CharField(max_length=10, primary_key=True)
+    caseNumber = models.CharField(max_length=10, primary_key=True, unique=True)
     patient = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     age = models.CharField(max_length=3, null=True)
     sex = models.CharField(default=0, blank=True, max_length=1, choices=GENDER)
@@ -204,7 +205,6 @@ class MedicalInfo(models.Model):
 
     def get_populated_fields(self):
         fields = {
-            'date': self.date,
             'case_number': self.caseNumber,
             'patient': self.patient.user,
             'age': self.age,
@@ -223,6 +223,7 @@ class MedicalInfo(models.Model):
         return fields
 
 class Message(models.Model):
+    message_id = models.CharField(max_length=10, primary_key=True, unique=True)
     target = models.ForeignKey(Account, related_name='messages_received', on_delete=models.CASCADE)
     sender = models.ForeignKey(Account, related_name='messages_sent', on_delete=models.CASCADE)
     header = models.CharField(max_length=300)
@@ -230,27 +231,49 @@ class Message(models.Model):
     read = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+class TimeSlot(models.Model):
+    timeslot_id = models.CharField(max_length=10, primary_key=True, unique=True)
+    startTime = models.TimeField()
+    endTime = models.TimeField()
+    end_date = models.DateField(null=True)
+
+    def __str__(self):
+        return str(self.startTime) + "-" + str(self.endTime)
+
+    def get_populated_fields(self):
+        fields = {
+            'startTime': self.startTime,
+            'endTime': self.endTime,
+            'end_date': self.end_date,
+        }
+
+    class Meta:
+        verbose_name_plural = 'Time Slots'
+
 class Appointment(models.Model):
+    appointment_id = models.CharField(max_length=10, primary_key=True)
     doctor = models.ForeignKey(User, related_name='doctors', on_delete=models.CASCADE)
     patient = models.ForeignKey(User, related_name='patients', on_delete=models.CASCADE)
     description = models.CharField(max_length=200)
     active = models.BooleanField(default=False)
-    startTime = models.TimeField()
-    endTime = models.TimeField()
-    date = models.DateField()
+    timeslot = models.ForeignKey(TimeSlot, related_name='timeslots', on_delete=models.CASCADE)
+    appt_date = models.ForeignKey(TimeSlot, null=True, related_name='slotdates', on_delete=models.CASCADE)
 
     def get_populated_fields(self):
         fields = {
             'doctor': self.doctor.account,
             'patient': self.patient.account,
             'description': self.description,
-            'startTime': self.startTime,
-            'endTime': self.endTime,
-            'date': self.date,
+            'timeslot': self.timeslot,
+            'appt_date': self.appt_date.date,
         }
         return fields
 
+    class Meta:
+        verbose_name_plural = 'Appointments'
+
 class MedicalTest(models.Model):
+    medtest_id = models.CharField(max_length=10, primary_key=True, unique=True)
     name = models.CharField(max_length=50)
     date = models.DateField()
     description = models.CharField(max_length=200)
@@ -277,6 +300,7 @@ class MedicalTest(models.Model):
         return fields
 
 class Prescription(models.Model):
+    prescription_id = models.CharField(max_length=10, primary_key=True, unique=True)
     patient = models.ForeignKey(User, related_name='patient', on_delete=models.CASCADE)
     doctor = models.ForeignKey(User, related_name='doctor', on_delete=models.CASCADE)
     date = models.DateField()
@@ -287,6 +311,7 @@ class Prescription(models.Model):
     active = models.BooleanField(default=True)
 
 class Statistics(models.Model):
+    stats_id = models.CharField(max_length=10, primary_key=True, default="")
     stats = models.CharField(max_length=100)
     freq = models.IntegerField(default=0)
 
@@ -320,7 +345,8 @@ class MorbidityReport(models.Model):
             if item[0] == key:
                 return item[1]
         return "None"
- 
+   
+    report_id = models.CharField(max_length=10, primary_key=True, unique=True)
     barangay = models.CharField(blank=True, max_length=50, choices=BARANGAY)
     disease = models.CharField(blank=True, max_length=100)
     classification = models.CharField(blank=True, max_length=10, choices=CLASSIFICATION)

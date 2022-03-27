@@ -62,6 +62,7 @@
                                 <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>
                             {% endif %}
                             {% if user.account.role == 30 %}
+                                <li class="{% block sidebar_create_timeslots %}{% endblock %}"><a href="/admin_profile/timeslots/">Create Timeslots</a>
                                 <li class="{% block sidebar_approve_appointment %}{% endblock %}"><a href="/admin_profile/appointment/approve/">Approve Appointments</a></li>
                                 <li class="{% block sidebar_appointment_list %}{% endblock %}"><a href="/admin_profile/appointment/list/">View Appointments</a></li>
                                 <li class="{% block sidebar_morbidity_report %}{% endblock %}"><a href="/report/">Morbidity Report</a></li>

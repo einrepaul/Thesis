@@ -8,7 +8,6 @@
     <table class="table table-striped">
         <thead>
             <th><a href="./?sort=id">ID number</a></th>
-            <th><a href="./?sort=date">Date</a></th>
             <th><a href="./?sort=caseNumber">Case Number</a></th>
             <th><a href="./?sort=name">Name</a></th>
             <th><a href="./?sort=age">Age</a></th>
@@ -27,7 +26,6 @@
         {% for medicalinfo in query %}
             <tr>
                 <td>{{ medicalinfo.patient.account.id }}</td>
-                <td>{{ medicalinfo.date }}</td>
                 <td>{{ medicalinfo.caseNumber }}</td>
                 <td>{{ medicalinfo.patient.account.profile }}</td>
                 <td>{{ medicalinfo.age }}</td>

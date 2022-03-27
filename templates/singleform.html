@@ -8,8 +8,8 @@
                     {{ field }}
                     {% if field|isDateable %}
                         <span class='input-group-addon'><span class="glyphicon glyphicon-time"></span></span>
-                        <script type='text/javascript'>
-                            $(function () {
+                        #<script type='text/javascript'>
+                            #$(function () {
                                 $('#form_{{ field.id_for_label }}').datetimepicker({
                                     {% if field|isDateField %}
                                         format: 'MM-DD-YYYY'

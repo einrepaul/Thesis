@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'bootstrap_modal_forms',
     'import_export',
+    'tablib',
 ]
 
 MIDDLEWARE = [

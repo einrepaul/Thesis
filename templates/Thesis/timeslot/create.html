@@ -1,0 +1,9 @@
+{% extends "adminbase.html" %}
+{% load app_filters %}
+{% block title %}Create Time Slot{% endblock %}
+{% block sidebar_create_timeslots %}active{% endblock %}
+{% block body_header %}Create Time Slot{% endblock %}
+{% block body_block %}
+    <p class="lead">Add new time slots for appointment.</p>
+    {% include "singleform.html" %}
+{% endblock %}
