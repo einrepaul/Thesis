@@ -45,10 +45,11 @@ class AppointmentAdmin(admin.ModelAdmin):
         'patient',
         'description',
         'active',
-        'timeslot',
-        'appt_date'
+        'startTime',
+        'endTime',
+        'date'
     ]
-    list_display = ('description','doctor', 'patient', 'active', 'timeslot', 'appt_date')
+    list_display = ('description','doctor', 'patient', 'active', 'startTime', 'endTime', 'date')
 
 admin.site.register(Appointment, AppointmentAdmin)
 

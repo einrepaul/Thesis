@@ -43,11 +43,12 @@ def heatmap(request):
         classification = (y['classification'])
         barangay = (y['barangay'])
         disease = (y['disease'])
+        cases = (y['cases'])
 
         for disease in barangay:
             popup = """
-            Disease: <b>%s</b></br>
-            """ % (y['disease'])
+            Disease: <b>%s</b> - %s </br>
+            """ % (y['disease']), (y['cases'])
 
         popup1 = "Aripdip"
         popup2 = "Calaigang"

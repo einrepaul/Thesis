@@ -251,21 +251,22 @@ class TimeSlot(models.Model):
         verbose_name_plural = 'Time Slots'
 
 class Appointment(models.Model):
-    appointment_id = models.CharField(max_length=10, primary_key=True)
     doctor = models.ForeignKey(User, related_name='doctors', on_delete=models.CASCADE)
     patient = models.ForeignKey(User, related_name='patients', on_delete=models.CASCADE)
     description = models.CharField(max_length=200)
     active = models.BooleanField(default=False)
-    timeslot = models.ForeignKey(TimeSlot, related_name='timeslots', on_delete=models.CASCADE)
-    appt_date = models.ForeignKey(TimeSlot, null=True, related_name='slotdates', on_delete=models.CASCADE)
+    startTime = models.TimeField(null=True)
+    endTime = models.TimeField(null=True)
+    date = models.DateField(null=True)
 
     def get_populated_fields(self):
         fields = {
             'doctor': self.doctor.account,
             'patient': self.patient.account,
             'description': self.description,
-            'timeslot': self.timeslot,
-            'appt_date': self.appt_date.date,
+            'startTime': self.startTime,
+            'endTime': self.endTime,
+            'date': self.date,
         }
         return fields
 
@@ -346,7 +347,6 @@ class MorbidityReport(models.Model):
                 return item[1]
         return "None"
    
-    report_id = models.CharField(max_length=10, primary_key=True, unique=True)
     barangay = models.CharField(blank=True, max_length=50, choices=BARANGAY)
     disease = models.CharField(blank=True, max_length=100)
     classification = models.CharField(blank=True, max_length=10, choices=CLASSIFICATION)
