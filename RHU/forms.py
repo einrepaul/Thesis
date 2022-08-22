@@ -1,5 +1,5 @@
 from MySQLdb import Date
-from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
+
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -8,7 +8,7 @@ from dal import autocomplete
 from django.forms import ModelForm
 from .widgets import DatePickerInput, TimePickerInput, DateTimePickerInput
 
-from RHU.models import Account, Profile, MedicalInfo, Appointment, MorbidityReport, TimeSlot
+from RHU.models import Account, Profile, MedicalInfo, Appointment, MorbidityReport
 
 def validate_username_available(username):
     if User.objects.filter(username=username).count():
@@ -127,6 +127,9 @@ class MessageForm(BasicForm):
     setup_field(body, "Message body")
 
 class MedicalInfoForm(BasicForm):
+    date = forms.DateField()
+    setup_field(date)
+    caseNumber = forms.CharField(max_length=10) 
     caseNumber = forms.CharField(max_length=10, label="Case Number:") 
     setup_field(caseNumber)
     patient = forms.ModelChoiceField(queryset=Account.objects.filter(role=10))
@@ -157,6 +160,7 @@ class MedicalInfoForm(BasicForm):
     setup_field(comments, 'Enter additional information here')
     
     def assign(self, medicalInfo):
+        medicalInfo.date = self.cleaned_data['date']
         medicalInfo.caseNumber = self.cleaned_data['caseNumber']
         medicalInfo.patient = self.cleaned_data['patient'].user
         medicalInfo.age = self.cleaned_data['age']
@@ -179,27 +183,61 @@ class AppointmentForm(BasicForm):
     setup_field(doctor)
     patient = forms.ModelChoiceField(queryset=Account.objects.filter(role=10))
     setup_field(patient)
-    timeslot = forms.ModelChoiceField(queryset=TimeSlot.objects.all())
-    setup_field(timeslot)
+    startTime = forms.TimeField(label='Start Time')
+    setup_field(startTime)
+    endTime = forms.TimeField(label='End Time')
+    setup_field(endTime)
+    date = forms.DateField()
+    setup_field(date)
+<<<<<<< HEAD
+<<<<<<< HEAD
+   # timeslot = forms.ModelChoiceField(queryset=TimeSlot.objects.all())
+   # setup_field(timeslot)
     #appt_date = forms.ModelChoiceField(queryset=TimeSlot.objects.filter(slot_date))
     #setup_field(appt_date)
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
 
     def assign(self, appointment):
         appointment.description = self.cleaned_data['description']
         appointment.doctor = self.cleaned_data['doctor'].user
         appointment.patient = self.cleaned_data['patient'].user
-        appointment.timeslot = self.cleaned_data['timeslot']
-        appointment.appt_date = self.cleaned_data['appt_date']
+        appointment.startTime = self.cleaned_data['startTime']
+        appointment.endTime = self.cleaned_data['endTime']
+        appointment.date = self.cleaned_data['date']
+<<<<<<< HEAD
+<<<<<<< HEAD
+     #   appointment.timeslot = self.cleaned_data['timeslot']
+     #   appointment.appt_date = self.cleaned_data['appt_date']
+
+#class TimeSlotForm(BasicForm):
+ #   startTime = forms.TimeField(widget=TimePickerInput, label="Start Time")
+ #   endTime = forms.TimeField(widget=TimePickerInput, label="End Time")
+ #   end_date = forms.DateField(widget=DatePickerInput)
+
+  #  def assign(self, timeslot):
+ #       timeslot.startTime = self.cleaned_data['startTime']
+ #       timeslot.endTime = self.cleaned_data['endTime']
+  #      timeslot.slot_date = self.cleaned_data['end_date']
+=======
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
 
 class TimeSlotForm(BasicForm):
     startTime = forms.TimeField(widget=TimePickerInput, label="Start Time")
     endTime = forms.TimeField(widget=TimePickerInput, label="End Time")
-    slot_date = forms.DateField(widget=DatePickerInput)
+    end_date = forms.DateField(widget=DatePickerInput)
 
     def assign(self, timeslot):
         timeslot.startTime = self.cleaned_data['startTime']
         timeslot.endTime = self.cleaned_data['endTime']
-        timeslot.slot_date = self.cleaned_data['slot_date']
+        timeslot.end_date = self.cleaned_data['end_date']
+<<<<<<< HEAD
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
 
 class MedTestForm(BasicForm):
     name = forms.CharField(max_length=50)
