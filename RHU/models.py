@@ -91,20 +91,27 @@ class Action(models.Model):
     ACTION_ACCOUNT = 1
     ACTION_PATIENT = 2
     ACTION_ADMIN = 3
-    ACTION_TIMESLOT = 4
-    ACTION_APPOINTMENT = 5
-    ACTION_MEDTEST = 6
-    ACTION_PRESCRIPTION = 7
-    ACTION_ADMISSION = 8
-    ACTION_MEDICALINFO = 9
-    ACTION_MESSAGE = 10
-    ACTION_MORBIDITYREPORT = 11
+    ACTION_APPOINTMENT = 4
+    ACTION_MEDTEST = 5
+    ACTION_PRESCRIPTION = 6
+    ACTION_ADMISSION = 7
+    ACTION_MEDICALINFO = 8
+    ACTION_MESSAGE = 9
+    ACTION_MORBIDITYREPORT = 10
+  #  ACTION_TIMESLOT = 4
+ #   ACTION_APPOINTMENT = 5
+  #  ACTION_MEDTEST = 6
+  #  ACTION_PRESCRIPTION = 7
+  #  ACTION_ADMISSION = 8
+  #  ACTION_MEDICALINFO = 9
+  #  ACTION_MESSAGE = 10
+  #  ACTION_MORBIDITYREPORT = 11
     ACTION_TYPES = (
         (ACTION_NONE, "None"),
         (ACTION_ACCOUNT, "Account"),
         (ACTION_PATIENT, "Patient"),
         (ACTION_ADMIN, "Admin"),
-        (ACTION_TIMESLOT, "Time Slot"),
+       # (ACTION_TIMESLOT, "Time Slot"),
         (ACTION_APPOINTMENT, "Appointment"),
         (ACTION_MEDTEST, "Medical Test"),
         (ACTION_PRESCRIPTION, "Prescription"),
@@ -238,7 +245,7 @@ class TimeSlot(models.Model):
     end_date = models.DateField(null=True)
 
     def __str__(self):
-        return str(self.startTime) + "-" + str(self.endTime)
+       return str(self.startTime) + "-" + str(self.endTime)
 
     def get_populated_fields(self):
         fields = {
@@ -251,21 +258,46 @@ class TimeSlot(models.Model):
         verbose_name_plural = 'Time Slots'
 
 class Appointment(models.Model):
-    appointment_id = models.CharField(max_length=10, primary_key=True)
+<<<<<<< HEAD
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
     doctor = models.ForeignKey(User, related_name='doctors', on_delete=models.CASCADE)
     patient = models.ForeignKey(User, related_name='patients', on_delete=models.CASCADE)
     description = models.CharField(max_length=200)
     active = models.BooleanField(default=False)
-    timeslot = models.ForeignKey(TimeSlot, related_name='timeslots', on_delete=models.CASCADE)
-    appt_date = models.ForeignKey(TimeSlot, null=True, related_name='slotdates', on_delete=models.CASCADE)
+    startTime = models.TimeField(null=True)
+    endTime = models.TimeField(null=True)
+    date = models.DateField(null=True)
+<<<<<<< HEAD
+<<<<<<< HEAD
+   
+=======
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
 
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
     def get_populated_fields(self):
         fields = {
+        
             'doctor': self.doctor.account,
             'patient': self.patient.account,
             'description': self.description,
-            'timeslot': self.timeslot,
-            'appt_date': self.appt_date.date,
+            'startTime': self.startTime,
+            'endTime': self.endTime,
+            'date': self.date,
+<<<<<<< HEAD
+<<<<<<< HEAD
+            
+            #'timeslot': self.timeslot,
+            #'appt_date': self.appt_date.date,
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
         }
         return fields
 
@@ -346,7 +378,13 @@ class MorbidityReport(models.Model):
                 return item[1]
         return "None"
    
-    report_id = models.CharField(max_length=10, primary_key=True, unique=True)
+<<<<<<< HEAD
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
+=======
+>>>>>>> 6bf3e3fe447291cfbadb205f2fb6e0f6a2d27e3a
     barangay = models.CharField(blank=True, max_length=50, choices=BARANGAY)
     disease = models.CharField(blank=True, max_length=100)
     classification = models.CharField(blank=True, max_length=10, choices=CLASSIFICATION)
