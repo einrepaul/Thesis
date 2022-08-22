@@ -10,7 +10,7 @@ from RHU import views_prescription
 from RHU import views_admin
 from RHU import views_heatmap
 from RHU import views_morbidityReport
-#from RHU import views_timeslot
+from RHU import views_timeslot
 
 app_name='RHU'
 
@@ -71,7 +71,7 @@ urlpatterns = [
     path('doctor_profile/prescription/list', views_prescription.doctor_list_view, name='prescription/doctorlist'),
     path('prescription/create', views_prescription.create_view, name='prescription/create'),
 
-    path('patient_profile/heatmap/', views_heatmap.heatmap, name='patientheatmap'),
+    path('patient_profile/heatmap', views_heatmap.heatmap, name='patientheatmap'),
     path('doctor_profile/heatmap', views_heatmap.heatmap, name='doctorheatmap'),
     path('admin_profile/heatmap', views_heatmap.heatmap, name='adminheatmap'),
 
@@ -85,7 +85,7 @@ urlpatterns = [
     path('error/admindenied/', views.admin_error_denied_view, name='error/admindenied'),
     
     path('admin_profile/appointment/approve/', views_appointment.admin_approve_appointment, name='admin-appointment-approve'),
-    #path('admin_profile/timeslots/', views_timeslot.timeslots, name='admin/createtimeslots'),
+    path('admin_profile/timeslots/', views_timeslot.timeslots, name='admin/createtimeslots'),
     path('admin_profile/admin/users/', views_admin.users_view, name='admin/users'),
     path('admin_profile/admin/activity/', views_admin.activity_view, name='admin/activity'),
     path('admin_profile/admin/stats/', views_admin.statistic_view, name='admin/stats'),
