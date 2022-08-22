@@ -30,7 +30,7 @@ def heatmap(request):
    
     tooltip = "Click for more info!"
 
-    conn = sqlite3.connect(r'C:\Users\Einre Paul\Desktop\django\Thesis\db.sqlite3')
+    conn = sqlite3.connect(r'C:\Users\Christian\Documents\GitHub\Thesis\db.sqlite3')
     db = pd.read_sql_query('SELECT * FROM RHU_morbidityreport', conn)
 
     pd.set_option('max_columns', None)
