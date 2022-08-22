@@ -27,7 +27,7 @@ def timeslots(request):
             slot = TimeSlot(
                 startTime=form.cleaned_data['startTime'],
                 endTime=form.cleaned_data['endTime'],
-                end_date=form.cleaned_data['end_date'],
+                date=form.cleaned_data['date'],
             )
             slot.save()
             logger.log(Action.ACTION_TIMESLOT, 'Time Slot created', request.user)

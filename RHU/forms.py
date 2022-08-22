@@ -179,30 +179,27 @@ class AppointmentForm(BasicForm):
     setup_field(doctor)
     patient = forms.ModelChoiceField(queryset=Account.objects.filter(role=10))
     setup_field(patient)
-    startTime = forms.TimeField(label='Start Time')
-    setup_field(startTime)
-    endTime = forms.TimeField(label='End Time')
-    setup_field(endTime)
-    date = forms.DateField()
-    setup_field(date)
+    timeslot = forms.ModelChoiceField(queryset=TimeSlot.objects.all())
+    setup_field(timeslot)
+    #appt_date = forms.ModelChoiceField(queryset=TimeSlot.objects.filter(slot_date))
+    #setup_field(appt_date)
 
     def assign(self, appointment):
         appointment.description = self.cleaned_data['description']
         appointment.doctor = self.cleaned_data['doctor'].user
         appointment.patient = self.cleaned_data['patient'].user
-        appointment.startTime = self.cleaned_data['startTime']
-        appointment.endTime = self.cleaned_data['endTime']
-        appointment.date = self.cleaned_data['date']
+        appointment.timeslot = self.cleaned_data['timeslot']
+        appointment.appt_date = self.cleaned_data['appt_date']
 
 class TimeSlotForm(BasicForm):
     startTime = forms.TimeField(widget=TimePickerInput, label="Start Time")
     endTime = forms.TimeField(widget=TimePickerInput, label="End Time")
-    end_date = forms.DateField(widget=DatePickerInput)
+    slot_date = forms.DateField(widget=DatePickerInput)
 
     def assign(self, timeslot):
         timeslot.startTime = self.cleaned_data['startTime']
         timeslot.endTime = self.cleaned_data['endTime']
-        timeslot.end_date = self.cleaned_data['end_date']
+        timeslot.slot_date = self.cleaned_data['slot_date']
 
 class MedTestForm(BasicForm):
     name = forms.CharField(max_length=50)

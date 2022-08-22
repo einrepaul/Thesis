@@ -26,6 +26,7 @@ def patient_view(request):
     if request.method == 'POST':
         if form.is_valid():
             medrecord = MedicalInfo(
+                date=form.cleaned_data['date'],
                 caseNumber=form.cleaned_data['caseNumber'],
                 patient=form.cleaned_data['patient'].user,
                 age=form.cleaned_data['age'],
