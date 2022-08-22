@@ -5,8 +5,10 @@ from datetime import datetime, date, timedelta
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 
-from RHU.forms import AppointmentForm, TimeSlotForm
-from RHU.models import Account, Appointment, Action,  TimeSlot
+from RHU.forms import AppointmentForm
+from RHU.models import Account, Appointment, Action
+#from RHU.forms import AppointmentForm, TimeSlotForm
+#from RHU.models import Account, Appointment, Action,  TimeSlot
 from RHU import logger
 from RHU import views
 
@@ -34,6 +36,7 @@ def patient_create_view(request):
                 endTime=form.cleaned_data['endTime'],
                 date=form.cleaned_data['date'],
             )
+            
             appt.save()
             logger.log(Action.ACTION_APPOINTMENT, 'Appointment created', request.user)
             form = AppointmentForm(default)
